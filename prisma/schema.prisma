@@ -107,3 +107,14 @@ model CommunityChannels {
   community_id Int
   creator_id   Int
 }
+
+
+model Communities {
+  id                Int                  @id @default(autoincrement())
+  title             String               @db.VarChar(45)
+  description       String               @db.VarChar(45)
+  created_at        DateTime             @default(now())
+  community_banner  String?              @db.VarChar(300)
+  community_logo    String?              @db.VarChar(300)
+  creator_id        Int
+}
