@@ -27,3 +27,11 @@ model Badges {
   description String   @db.VarChar(45)
   icon        String   @db.VarChar(300)
 }
+
+
+model UserBadges {
+  badges_id Int
+  user_id   Int
+  earned_at DateTime @default(now())
+  @@id([badges_id, user_id])
+}
