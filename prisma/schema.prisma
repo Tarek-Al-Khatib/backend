@@ -7,46 +7,48 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Users {
-  id          Int       @id @default(autoincrement())
-  username    String    @db.VarChar(45)
-  email       String    @db.VarChar(45)
-  password    String    @db.VarChar(100)
+  id          Int      @id @default(autoincrement())
+  username    String   @db.VarChar(45)
+  email       String   @db.VarChar(45)
+  password    String   @db.VarChar(100)
   level       Int
-  profile_pic String?   @db.VarChar(250)
-  description String?   @db.VarChar(100)
-  created_at  DateTime  @default(now())
-  updated_at  DateTime  @updatedAt
+  profile_pic String?  @db.VarChar(250)
+  description String?  @db.VarChar(100)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
   points      Int
 }
 
 model Badges {
-  id          Int      @id @default(autoincrement())
-  title       String   @db.VarChar(45)
-  description String   @db.VarChar(45)
-  icon        String   @db.VarChar(300)
+  id          Int    @id @default(autoincrement())
+  title       String @db.VarChar(45)
+  description String @db.VarChar(45)
+  icon        String @db.VarChar(300)
 }
-
 
 model UserBadges {
   badges_id Int
   user_id   Int
   earned_at DateTime @default(now())
+
   @@id([badges_id, user_id])
 }
 
-
 model Notifications {
-  id            Int      @id @default(autoincrement())
-  message       String   @db.VarChar(45)
-  is_read       Boolean  @default(false)
-  created_at    DateTime @default(now())
-  type          String   @db.Enum("ENUM")
-  user_id       Int
-
+  id         Int               @id @default(autoincrement())
+  message    String            @db.VarChar(45)
+  is_read    Boolean           @default(false)
+  created_at DateTime          @default(now())
+  type       TypeNotifications @default(INFO)
+  user_id    Int
 }
 
+enum TypeNotifications {
+  INFO
+  REMINDER
+  ALERT
+}
 
 model LearningSteps {
   id               Int      @id @default(autoincrement())
@@ -57,29 +59,37 @@ model LearningSteps {
   learning_plan_id Int
 }
 
-
 model LearningPlans {
-  id          Int      @id @default(autoincrement())
-  title       String   @db.VarChar(45)
-  description String   @db.VarChar(45)
+  id           Int      @id @default(autoincrement())
+  title        String   @db.VarChar(45)
+  description  String   @db.VarChar(45)
   is_completed Boolean  @default(false)
-  created_at  DateTime  @default(now())
-  user_id     Int
+  created_at   DateTime @default(now())
+  user_id      Int
 }
 
-
 model Interviews {
-  id           Int      @id @default(autoincrement())
-  type         String   @db.Enum("ENUM")
+  id           Int            @id @default(autoincrement())
+  type         TypeInterviews
   score        Float
-  feedback     String?  @db.VarChar(500)
+  feedback     String?        @db.VarChar(500)
   date         DateTime
-  status       String   @db.Enum("ENUM")
-  created_at   DateTime @default(now())
+  status       Status
+  created_at   DateTime       @default(now())
   user_id      Int
   moderator_id Int
 }
 
+enum TypeInterviews {
+  MODERATOR
+  AI
+}
+
+enum Status {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
 
 model Chats {
   id         Int      @id @default(autoincrement())
@@ -89,15 +99,21 @@ model Chats {
   channel_id Int
 }
 
-
 model CommunityMembers {
-  user_id       Int
-  community_id  Int
-  role          String   @db.Enum("ENUM")
-  joined_at     DateTime @default(now())
+  user_id      Int
+  community_id Int
+  role         Role
+  joined_at    DateTime @default(now())
+
   @@id([user_id, community_id])
 }
 
+enum Role {
+  ADMIN
+  MODERATOR
+  PROUSER
+  USER
+}
 
 model CommunityChannels {
   id           Int      @id @default(autoincrement())
@@ -108,13 +124,12 @@ model CommunityChannels {
   creator_id   Int
 }
 
-
 model Communities {
-  id                Int                  @id @default(autoincrement())
-  title             String               @db.VarChar(45)
-  description       String               @db.VarChar(45)
-  created_at        DateTime             @default(now())
-  community_banner  String?              @db.VarChar(300)
-  community_logo    String?              @db.VarChar(300)
-  creator_id        Int
+  id               Int      @id @default(autoincrement())
+  title            String   @db.VarChar(45)
+  description      String   @db.VarChar(45)
+  created_at       DateTime @default(now())
+  community_banner String?  @db.VarChar(300)
+  community_logo   String?  @db.VarChar(300)
+  creator_id       Int
 }
