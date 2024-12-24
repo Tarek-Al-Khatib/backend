@@ -18,6 +18,16 @@ model Users {
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
   points      Int
+
+  user_badges          UserBadges[]
+  learning_plans       LearningPlans[]
+  notifications        Notifications[]
+  community_members    CommunityMembers[]
+  interviews           Interviews[]        @relation(name: "InterviewedUser")
+  moderated_interviews Interviews[]        @relation(name: "InterviewModerator")
+  Chats                Chats[]
+  CommunityChannels    CommunityChannels[]
+  Communities          Communities[]
 }
 
 model Badges {
@@ -25,12 +35,17 @@ model Badges {
   title       String @db.VarChar(45)
   description String @db.VarChar(45)
   icon        String @db.VarChar(300)
+
+  user_badges UserBadges[]
 }
 
 model UserBadges {
   badges_id Int
   user_id   Int
   earned_at DateTime @default(now())
+
+  user  Users  @relation(fields: [user_id], references: [id])
+  badge Badges @relation(fields: [badges_id], references: [id])
 
   @@id([badges_id, user_id])
 }
@@ -42,6 +57,8 @@ model Notifications {
   created_at DateTime          @default(now())
   type       TypeNotifications @default(INFO)
   user_id    Int
+
+  user Users @relation(fields: [user_id], references: [id])
 }
 
 enum TypeNotifications {
@@ -57,6 +74,8 @@ model LearningSteps {
   is_completed     Boolean  @default(false)
   created_at       DateTime @default(now())
   learning_plan_id Int
+
+  learning_plan LearningPlans @relation(fields: [learning_plan_id], references: [id])
 }
 
 model LearningPlans {
@@ -66,6 +85,9 @@ model LearningPlans {
   is_completed Boolean  @default(false)
   created_at   DateTime @default(now())
   user_id      Int
+
+  user  Users           @relation(fields: [user_id], references: [id])
+  steps LearningSteps[]
 }
 
 model Interviews {
@@ -78,6 +100,9 @@ model Interviews {
   created_at   DateTime       @default(now())
   user_id      Int
   moderator_id Int
+
+  user      Users @relation(name: "InterviewedUser", fields: [user_id], references: [id])
+  moderator Users @relation(name: "InterviewModerator", fields: [moderator_id], references: [id])
 }
 
 enum TypeInterviews {
@@ -97,6 +122,9 @@ model Chats {
   sent_at    DateTime @default(now())
   sender_id  Int
   channel_id Int
+
+  sender  Users             @relation(fields: [sender_id], references: [id])
+  channel CommunityChannels @relation(fields: [channel_id], references: [id])
 }
 
 model CommunityMembers {
@@ -104,6 +132,9 @@ model CommunityMembers {
   community_id Int
   role         Role
   joined_at    DateTime @default(now())
+
+  user      Users       @relation(fields: [user_id], references: [id])
+  community Communities @relation(fields: [community_id], references: [id])
 
   @@id([user_id, community_id])
 }
@@ -122,6 +153,10 @@ model CommunityChannels {
   created_at   DateTime @default(now())
   community_id Int
   creator_id   Int
+
+  community Communities @relation(fields: [community_id], references: [id])
+  creator   Users       @relation(fields: [creator_id], references: [id])
+  chats     Chats[]
 }
 
 model Communities {
@@ -132,4 +167,8 @@ model Communities {
   community_banner String?  @db.VarChar(300)
   community_logo   String?  @db.VarChar(300)
   creator_id       Int
+
+  creator  Users               @relation(fields: [creator_id], references: [id])
+  channels CommunityChannels[]
+  members  CommunityMembers[]
 }
