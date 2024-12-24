@@ -79,3 +79,12 @@ model Interviews {
   user_id      Int
   moderator_id Int
 }
+
+
+model Chats {
+  id         Int      @id @default(autoincrement())
+  message    String   @db.VarChar(1000)
+  sent_at    DateTime @default(now())
+  sender_id  Int
+  channel_id Int
+}
