@@ -46,3 +46,13 @@ model Notifications {
   user_id       Int
 
 }
+
+
+model LearningSteps {
+  id               Int      @id @default(autoincrement())
+  step_title       String   @db.VarChar(45)
+  step_description String   @db.VarChar(45)
+  is_completed     Boolean  @default(false)
+  created_at       DateTime @default(now())
+  learning_plan_id Int
+}
