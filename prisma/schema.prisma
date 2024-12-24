@@ -88,3 +88,12 @@ model Chats {
   sender_id  Int
   channel_id Int
 }
+
+
+model CommunityMembers {
+  user_id       Int
+  community_id  Int
+  role          String   @db.Enum("ENUM")
+  joined_at     DateTime @default(now())
+  @@id([user_id, community_id])
+}
