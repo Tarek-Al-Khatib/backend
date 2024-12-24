@@ -35,3 +35,14 @@ model UserBadges {
   earned_at DateTime @default(now())
   @@id([badges_id, user_id])
 }
+
+
+model Notifications {
+  id            Int      @id @default(autoincrement())
+  message       String   @db.VarChar(45)
+  is_read       Boolean  @default(false)
+  created_at    DateTime @default(now())
+  type          String   @db.Enum("ENUM")
+  user_id       Int
+
+}
