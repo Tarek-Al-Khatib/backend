@@ -97,3 +97,13 @@ model CommunityMembers {
   joined_at     DateTime @default(now())
   @@id([user_id, community_id])
 }
+
+
+model CommunityChannels {
+  id           Int      @id @default(autoincrement())
+  name         String   @db.VarChar(45)
+  description  String   @db.VarChar(45)
+  created_at   DateTime @default(now())
+  community_id Int
+  creator_id   Int
+}
