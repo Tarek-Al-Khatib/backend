@@ -66,3 +66,16 @@ model LearningPlans {
   created_at  DateTime  @default(now())
   user_id     Int
 }
+
+
+model Interviews {
+  id           Int      @id @default(autoincrement())
+  type         String   @db.Enum("ENUM")
+  score        Float
+  feedback     String?  @db.VarChar(500)
+  date         DateTime
+  status       String   @db.Enum("ENUM")
+  created_at   DateTime @default(now())
+  user_id      Int
+  moderator_id Int
+}
