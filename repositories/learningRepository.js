@@ -19,4 +19,38 @@ export const learningRepository = {
       },
     });
   },
+
+  async updatePlan(planId, planData, steps) {
+    if (planData) {
+      await prisma.learningPlans.update({
+        where: { id: planId },
+        data: planData,
+      });
+    }
+
+    if (steps) {
+      for (const step of steps) {
+        if (step.id) {
+          await prisma.learningSteps.update({
+            where: { id: step.id },
+            data: step,
+          });
+        } else {
+          await prisma.learningSteps.create({
+            data: {
+              ...step,
+              learning_plan_id: planId,
+            },
+          });
+        }
+      }
+    }
+
+    return LearningPlanModel.findUnique({
+      where: { id: planId },
+      include: {
+        steps: true,
+      },
+    });
+  },
 };
