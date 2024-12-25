@@ -22,7 +22,7 @@ export const learningRepository = {
 
   async updatePlan(planId, planData, steps) {
     if (planData) {
-      await prisma.learningPlans.update({
+      await LearningPlanModel.update({
         where: { id: planId },
         data: planData,
       });
@@ -31,12 +31,12 @@ export const learningRepository = {
     if (steps) {
       for (const step of steps) {
         if (step.id) {
-          await prisma.learningSteps.update({
+          await LearningStepModel.update({
             where: { id: step.id },
             data: step,
           });
         } else {
-          await prisma.learningSteps.create({
+          await LearningStepModel.create({
             data: {
               ...step,
               learning_plan_id: planId,
@@ -55,13 +55,22 @@ export const learningRepository = {
   },
 
   async markAsDone(planId) {
-    const plan = await prisma.learningPlans.update({
+    const plan = await LearningPlanModel.update({
       where: { id: planId },
       data: { is_completed: true },
     });
 
-    await prisma.learningSteps.updateMany({
+    await LearningStepModel.updateMany({
       where: { learning_plan_id: planId },
+      data: { is_completed: true },
+    });
+
+    return plan;
+  },
+
+  async markStepAsDone(stepId) {
+    await LearningStepModel.update({
+      where: { id: stepId },
       data: { is_completed: true },
     });
 
