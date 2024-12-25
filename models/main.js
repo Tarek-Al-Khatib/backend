@@ -1,4 +1,4 @@
-import prisma from "../config/database";
+import prisma from "../database/database.js";
 
 export const UserModel = prisma.users;
 export const BadgeModel = prisma.badges;
