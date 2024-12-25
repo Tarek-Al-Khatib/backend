@@ -51,3 +51,20 @@ export const updatePlan = async (req, res) => {
       .json({ error: "An error occurred while updating the plan." });
   }
 };
+
+export const markPlanAsDone = async (req, res) => {
+  const planId = req.params.planId;
+
+  try {
+    const markedPlan = await learningRepository.markAsDone(planId);
+    res.status(200).json({
+      message: "Plan marked as done successfully.",
+      plan: markedPlan,
+    });
+  } catch (error) {
+    console.error("Error in markPlanAsDone:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while marking the plan as done." });
+  }
+};
