@@ -76,4 +76,15 @@ export const learningRepository = {
 
     return plan;
   },
+
+  async planExists(planId) {
+    try {
+      await LearningPlanModel.findFirstOrThrow({
+        where: { id: planId },
+      });
+      return true;
+    } catch (error) {
+      throw new Error(`Learning plan with ID ${planId} does not exist.`);
+    }
+  },
 };
