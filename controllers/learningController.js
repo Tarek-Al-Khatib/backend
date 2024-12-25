@@ -27,3 +27,27 @@ export const addPlan = async (req, res) => {
     res.status(500).json({ error: "An error occurred while adding the plan." });
   }
 };
+
+export const updatePlan = async (req, res) => {
+  const planId = req.params.planId;
+  const { planData, steps } = req.body;
+
+  try {
+    await learningRepository.planExists(planId);
+
+    const updatedPlan = await learningRepository.updatePlan(
+      planId,
+      planData,
+      steps
+    );
+    res.status(200).json({
+      message: "Plan updated successfully.",
+      plan: updatedPlan,
+    });
+  } catch (error) {
+    console.error("Error in updatePlan:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while updating the plan." });
+  }
+};
