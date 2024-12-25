@@ -87,4 +87,15 @@ export const learningRepository = {
       throw new Error(`Learning plan with ID ${planId} does not exist.`);
     }
   },
+
+  async stepExists(stepId) {
+    try {
+      await LearningStepModel.findFirstOrThrow({
+        where: { id: stepId },
+      });
+      return true;
+    } catch (error) {
+      throw new Error(`Learning plan with ID ${stepId} does not exist.`);
+    }
+  },
 };
