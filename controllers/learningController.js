@@ -68,3 +68,20 @@ export const markPlanAsDone = async (req, res) => {
       .json({ error: "An error occurred while marking the plan as done." });
   }
 };
+
+export const markStepAsDone = async (req, res) => {
+  const stepId = req.params.stepId;
+
+  try {
+    const markedStep = await learningRepository.markStepAsDone(stepId);
+    res.status(200).json({
+      message: "Step marked as done successfully.",
+      step: markedStep,
+    });
+  } catch (error) {
+    console.error("Error in markStepAsDone:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while marking the step as done." });
+  }
+};
