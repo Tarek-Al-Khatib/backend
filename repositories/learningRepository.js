@@ -53,4 +53,18 @@ export const learningRepository = {
       },
     });
   },
+
+  async markAsDone(planId) {
+    const plan = await prisma.learningPlans.update({
+      where: { id: planId },
+      data: { is_completed: true },
+    });
+
+    await prisma.learningSteps.updateMany({
+      where: { learning_plan_id: planId },
+      data: { is_completed: true },
+    });
+
+    return plan;
+  },
 };
