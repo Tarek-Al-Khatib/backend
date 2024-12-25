@@ -1,7 +1,7 @@
 import { learningRepository } from "../repositories/learningRepository.js";
 
 export const getPlans = async (req, res) => {
-  const userId = req.params.userId;
+  const userId = Number(req.params.userId);
 
   try {
     const plans = await learningRepository.getPlansByUserId(userId);
@@ -13,7 +13,7 @@ export const getPlans = async (req, res) => {
 };
 
 export const addPlan = async (req, res) => {
-  const userId = req.params.userId;
+  const userId = Number(req.params.userId);
   const { planData, steps } = req.body;
 
   try {
@@ -32,7 +32,7 @@ export const addPlan = async (req, res) => {
 };
 
 export const updatePlan = async (req, res) => {
-  const planId = req.params.planId;
+  const planId = Number(req.params.planId);
   const { planData, steps } = req.body;
 
   try {
@@ -56,7 +56,7 @@ export const updatePlan = async (req, res) => {
 };
 
 export const markPlanAsDone = async (req, res) => {
-  const planId = req.params.planId;
+  const planId = Number(req.params.planId);
 
   try {
     const markedPlan = await learningRepository.markAsDone(planId);
@@ -73,7 +73,7 @@ export const markPlanAsDone = async (req, res) => {
 };
 
 export const markStepAsDone = async (req, res) => {
-  const stepId = req.params.stepId;
+  const stepId = Number(req.params.stepId);
 
   try {
     const markedStep = await learningRepository.markStepAsDone(stepId);

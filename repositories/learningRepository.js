@@ -80,12 +80,12 @@ export const learningRepository = {
   },
 
   async markStepAsDone(stepId) {
-    await LearningStepModel.update({
+    const step = await LearningStepModel.update({
       where: { id: stepId },
       data: { is_completed: true },
     });
 
-    return plan;
+    return step;
   },
 
   async planExists(planId) {

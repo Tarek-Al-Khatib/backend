@@ -58,7 +58,7 @@ export const login = async (req, res) => {
   try {
     const user = await userRepository.findByEmailOrUsername(
       emailOrUsername,
-      username
+      emailOrUsername
     );
     if (!user) {
       return res.status(400).json({ error: "Invalid credentials." });

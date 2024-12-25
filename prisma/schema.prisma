@@ -14,7 +14,7 @@ model Users {
   password    String   @db.VarChar(100)
   level       Int
   profile_pic String?  @db.VarChar(250)
-  description String?  @db.VarChar(100)
+  description String?  @db.VarChar(300)
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
   points      Int
@@ -33,7 +33,7 @@ model Users {
 model Badges {
   id          Int    @id @default(autoincrement())
   title       String @db.VarChar(45)
-  description String @db.VarChar(45)
+  description String @db.VarChar(200)
   icon        String @db.VarChar(300)
 
   user_badges UserBadges[]
@@ -70,7 +70,7 @@ enum TypeNotifications {
 model LearningSteps {
   id               Int      @id @default(autoincrement())
   step_title       String   @db.VarChar(45)
-  step_description String   @db.VarChar(45)
+  step_description String   @db.VarChar(300)
   is_completed     Boolean  @default(false)
   created_at       DateTime @default(now())
   learning_plan_id Int
@@ -81,7 +81,7 @@ model LearningSteps {
 model LearningPlans {
   id           Int      @id @default(autoincrement())
   title        String   @db.VarChar(45)
-  description  String   @db.VarChar(45)
+  description  String   @db.VarChar(300)
   is_completed Boolean  @default(false)
   created_at   DateTime @default(now())
   user_id      Int
