@@ -14,17 +14,20 @@ export const getPlans = async (req, res) => {
 
 export const addPlan = async (req, res) => {
   const userId = req.params.userId;
-  const planData = req.body;
+  const { planData, steps } = req.body;
 
   try {
-    const newPlan = await learningRepository.addPlan(planData, userId);
+    const newPlan = await learningRepository.addPlan(planData, userId, steps);
+
     res.status(200).json({
-      message: "Plan added successfully.",
+      message: "Learning plan added successfully.",
       plan: newPlan,
     });
   } catch (error) {
     console.error("Error in addPlan:", error);
-    res.status(500).json({ error: "An error occurred while adding the plan." });
+    res
+      .status(500)
+      .json({ error: "An error occurred while adding the learning plan." });
   }
 };
 

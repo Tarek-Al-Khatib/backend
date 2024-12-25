@@ -11,13 +11,24 @@ export const learningRepository = {
     });
   },
 
-  async addPlan(planData, userId) {
-    return LearningPlanModel.create({
+  async addPlan(planData, userId, steps) {
+    const newPlan = await LearningPlanModel.create({
       data: {
         ...planData,
         user_id: userId,
       },
     });
+
+    if (steps && steps.length > 0) {
+      const stepData = steps.map((step) => ({
+        ...step,
+        learning_plan_id: newPlan.id,
+      }));
+
+      await LearningStepModel.createMany({
+        data: stepData,
+      });
+    }
   },
 
   async updatePlan(planId, planData, steps) {
