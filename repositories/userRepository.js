@@ -1,4 +1,4 @@
-import UserModel from "../models/main.js";
+import { UserModel } from "../models/main.js";
 
 export const userRepository = {
   async findByEmailOrUsername(email, username) {
