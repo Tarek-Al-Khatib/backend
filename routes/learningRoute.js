@@ -5,8 +5,8 @@ import {
   markPlanAsDone,
   markStepAsDone,
   getPlans,
-} from "../controllers/learningController";
-import { authMiddleware } from "../middlewares/authMiddleware";
+} from "../controllers/learningController.js";
+import { authMiddleware } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
