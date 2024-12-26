@@ -35,4 +35,15 @@ export const communityRepository = {
       },
     });
   },
+
+  async communityExists(communityId) {
+    try {
+      await CommunityModel.findFirstOrThrow({
+        where: { id: communityId },
+      });
+      return true;
+    } catch (error) {
+      throw new Error(`Community with ID ${communityId} does not exist.`);
+    }
+  },
 };
