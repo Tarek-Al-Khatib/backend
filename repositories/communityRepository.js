@@ -14,4 +14,16 @@ export const communityRepository = {
       },
     });
   },
+
+  async getChats(channelId) {
+    return ChatModel.findMany({
+      where: {
+        channel_id: channelId,
+      },
+      include: {
+        sender: true,
+        channel: true,
+      },
+    });
+  },
 };
