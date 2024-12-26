@@ -25,3 +25,16 @@ export const getChats = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const getMembers = async (req, res) => {
+  const communityId = Number(req.params.communityId);
+
+  try {
+    await communityRepository.communityExists(communityId);
+    const members = await communityRepository.getMembers(communityId);
+    res.status(200).json(members);
+  } catch (error) {
+    console.error("Error in getMembers:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
