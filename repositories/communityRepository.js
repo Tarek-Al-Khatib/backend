@@ -26,4 +26,13 @@ export const communityRepository = {
       },
     });
   },
+
+  async getMembers(communityId) {
+    return CommunityMemberModel.findMany({
+      where: { community_id: communityId },
+      include: {
+        user: true,
+      },
+    });
+  },
 };
