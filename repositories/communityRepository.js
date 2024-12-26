@@ -46,4 +46,15 @@ export const communityRepository = {
       throw new Error(`Community with ID ${communityId} does not exist.`);
     }
   },
+
+  async channelExists(channelId) {
+    try {
+      await CommunityChannelModel.findFirstOrThrow({
+        where: { id: channelId },
+      });
+      return true;
+    } catch (error) {
+      throw new Error(`Channel with ID ${channelId} does not exist.`);
+    }
+  },
 };
