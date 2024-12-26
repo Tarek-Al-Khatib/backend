@@ -12,3 +12,16 @@ export const getChannels = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const getChats = async (req, res) => {
+  const communityId = Number(req.params.communityId);
+
+  try {
+    await communityRepository.communityExists(communityId);
+    const chats = await communityRepository.getChats(communityId);
+    res.status(200).json(chats);
+  } catch (error) {
+    console.error("Error in getChats:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
