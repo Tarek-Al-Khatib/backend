@@ -38,6 +38,17 @@ export const communityRepository = {
     return community;
   },
 
+  async createChannel(userId, channelData) {
+    const channel = await CommunityChannelModel.create({
+      data: {
+        ...channelData,
+        creator_id: userId,
+      },
+    });
+
+    return channel;
+  },
+
   async getMembers(communityId) {
     return CommunityMemberModel.findMany({
       where: { community_id: communityId },
