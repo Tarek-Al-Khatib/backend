@@ -49,6 +49,17 @@ export const communityRepository = {
     return channel;
   },
 
+  async joinCommunity(userId, communityId, role = "USER") {
+    const joinedCommunity = await prisma.communityMembers.create({
+      data: {
+        user_id: userId,
+        community_id: communityId,
+        role,
+      },
+    });
+    return joinedCommunity;
+  },
+
   async getMembers(communityId) {
     return CommunityMemberModel.findMany({
       where: { community_id: communityId },
