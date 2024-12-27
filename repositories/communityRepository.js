@@ -50,7 +50,7 @@ export const communityRepository = {
   },
 
   async joinCommunity(userId, communityId, role = "USER") {
-    const joinedCommunity = await prisma.communityMembers.create({
+    const joinedCommunity = await CommunityMemberModel.create({
       data: {
         user_id: userId,
         community_id: communityId,
@@ -58,6 +58,23 @@ export const communityRepository = {
       },
     });
     return joinedCommunity;
+  },
+
+  async getUserCommunities(userId) {
+    try {
+      const communities = await CommunityMemberModel.findMany({
+        where: {
+          user_id: userId,
+        },
+        include: {
+          community: true,
+        },
+      });
+      return communities.map((membership) => membership.community);
+    } catch (error) {
+      console.error("Error in getUserCommunities:", error);
+      throw new Error("Failed to fetch user communities.");
+    }
   },
 
   async getMembers(communityId) {
