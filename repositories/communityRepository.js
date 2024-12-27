@@ -27,6 +27,17 @@ export const communityRepository = {
     });
   },
 
+  async createCommunity(userId, communityData) {
+    const community = await CommunityModel.create({
+      data: {
+        ...communityData,
+        creator_id: userId,
+      },
+    });
+
+    return community;
+  },
+
   async getMembers(communityId) {
     return CommunityMemberModel.findMany({
       where: { community_id: communityId },
