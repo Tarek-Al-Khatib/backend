@@ -38,3 +38,19 @@ export const getMembers = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const createCommunity = async (req, res) => {
+  const userId = Number(req.params.userId);
+  const communityData = req.body;
+
+  try {
+    const community = await communityRepository.createCommunity(
+      userId,
+      communityData
+    );
+    res.status(201).json(community);
+  } catch (error) {
+    console.error("Error in createCommunity:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
