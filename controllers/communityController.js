@@ -48,9 +48,28 @@ export const createCommunity = async (req, res) => {
       userId,
       communityData
     );
-    res.status(201).json(community);
+    res.status(200).json(community);
   } catch (error) {
     console.error("Error in createCommunity:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const createChannel = async (req, res) => {
+  const userId = Number(req.params.userId);
+  const channelData = {
+    ...req.body,
+    community_id: Number(req.params.communityId),
+  };
+
+  try {
+    const channel = await communityRepository.createChannel(
+      userId,
+      channelData
+    );
+    res.status(200).json(channel);
+  } catch (error) {
+    console.error("Error in createChannel:", error);
     res.status(500).json({ error: error.message });
   }
 };
