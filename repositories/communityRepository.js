@@ -47,6 +47,9 @@ export const communityRepository = {
         ...channelData,
         creator_id: userId,
       },
+      include: {
+        creator: true,
+      },
     });
 
     return channel;
