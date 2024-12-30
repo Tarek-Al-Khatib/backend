@@ -11,6 +11,7 @@ export const communityRepository = {
       where: { community_id: communityId },
       include: {
         creator: true,
+        chats: true,
       },
     });
   },
