@@ -36,6 +36,14 @@ export const communityRepository = {
       },
     });
 
+    await CommunityModel.joinCommunity({
+      data: {
+        user_id: userId,
+        community_id: community.id,
+        role: "ADMIN",
+      },
+    });
+
     return community;
   },
 
