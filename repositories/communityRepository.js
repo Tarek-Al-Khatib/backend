@@ -36,13 +36,7 @@ export const communityRepository = {
       },
     });
 
-    await CommunityModel.joinCommunity({
-      data: {
-        user_id: userId,
-        community_id: community.id,
-        role: "ADMIN",
-      },
-    });
+    await this.joinCommunity(userId, community.id, "ADMIN");
 
     return community;
   },
