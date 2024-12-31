@@ -22,7 +22,7 @@ io.on("connection", (socket) => {
 
   socket.on("sendMessage", async ({ channelId, userId, message }) => {
     try {
-      await communityRepository.saveMessage(channelId, userId, messageData);
+      await communityRepository.saveMessage(channelId, userId, message);
       io.to(channelId).emit("receiveMessage", message);
     } catch (error) {
       console.error("Error saving message:", error);
