@@ -1,6 +1,7 @@
 import { Server } from "socket.io";
 import http from "http";
 import app from "../app/app.js";
+import { communityRepository } from "../repositories/communityRepository.js";
 
 const server = http.createServer(app);
 
@@ -19,8 +20,13 @@ io.on("connection", (socket) => {
     console.log(`User ${socket.id} joined channel ${channelId}`);
   });
 
-  socket.on("sendMessage", ({ channelId, message }) => {
-    io.to(channelId).emit("receiveMessage", message);
+  socket.on("sendMessage", async ({ channelId, userId, message }) => {
+    try {
+      await communityRepository.saveMessage(channelId, userId, messageData);
+      io.to(channelId).emit("receiveMessage", message);
+    } catch (error) {
+      console.error("Error saving message:", error);
+    }
   });
 
   socket.on("disconnect", () => {
