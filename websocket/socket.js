@@ -13,4 +13,9 @@ const io = new Server(server, {
 
 io.on("connection", (socket) => {
   console.log("User connected", socket.id);
+
+  socket.on("joinChannel", (channelId) => {
+    socket.join(channelId);
+    console.log(`User ${socket.id} joined channel ${channelId}`);
+  });
 });
