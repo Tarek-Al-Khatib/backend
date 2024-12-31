@@ -18,4 +18,8 @@ io.on("connection", (socket) => {
     socket.join(channelId);
     console.log(`User ${socket.id} joined channel ${channelId}`);
   });
+
+  socket.on("sendMessage", ({ channelId, message }) => {
+    io.to(channelId).emit("receiveMessage", message);
+  });
 });
