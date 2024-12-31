@@ -22,4 +22,8 @@ io.on("connection", (socket) => {
   socket.on("sendMessage", ({ channelId, message }) => {
     io.to(channelId).emit("receiveMessage", message);
   });
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected:", socket.id);
+  });
 });
