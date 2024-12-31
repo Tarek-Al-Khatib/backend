@@ -17,9 +17,13 @@ export function createSocketServer(httpServer) {
       console.log(`User ${socket.id} joined channel ${channelId}`);
     });
 
-    socket.on("sendMessage", async ({ channelId, userId, message }) => {
+    socket.on("sendMessage", async ({ channelId, userId, messageContent }) => {
       try {
-        await communityRepository.saveMessage(channelId, userId, message);
+        const message = await communityRepository.saveMessage(
+          channelId,
+          userId,
+          messageContent
+        );
         io.to(channelId).emit("receiveMessage", message);
       } catch (error) {
         console.error("Error saving message:", error);

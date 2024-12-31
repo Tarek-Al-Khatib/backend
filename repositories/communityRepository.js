@@ -92,13 +92,15 @@ export const communityRepository = {
     });
   },
 
-  async saveMessage(channelId, userId, message) {
+  async saveMessage(channelId, userId, messageContent) {
+    console.log(messageContent);
     return ChatModel.create({
       data: {
-        message: message,
+        message: messageContent,
         sender_id: userId,
         channel_id: channelId,
       },
+      include: { sender: true },
     });
   },
 
