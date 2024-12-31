@@ -92,6 +92,16 @@ export const communityRepository = {
     });
   },
 
+  async saveMessage(channelId, userId, messageData) {
+    return ChatModel.create({
+      data: {
+        ...messageData,
+        sender_id: userId,
+        channel_id: channelId,
+      },
+    });
+  },
+
   async communityExists(communityId) {
     try {
       await CommunityModel.findFirstOrThrow({
