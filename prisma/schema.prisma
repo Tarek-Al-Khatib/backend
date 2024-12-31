@@ -73,6 +73,7 @@ model LearningSteps {
   step_description String   @db.VarChar(300)
   is_completed     Boolean  @default(false)
   created_at       DateTime @default(now())
+  points           Int      @default(0)
   learning_plan_id Int
 
   learning_plan LearningPlans @relation(fields: [learning_plan_id], references: [id])
@@ -84,6 +85,7 @@ model LearningPlans {
   description  String   @db.VarChar(300)
   is_completed Boolean  @default(false)
   created_at   DateTime @default(now())
+  points       Int      @default(0)
   user_id      Int
 
   user  Users           @relation(fields: [user_id], references: [id])
@@ -98,6 +100,7 @@ model Interviews {
   date         DateTime
   status       Status
   created_at   DateTime       @default(now())
+  points       Int            @default(0)
   user_id      Int
   moderator_id Int
 
