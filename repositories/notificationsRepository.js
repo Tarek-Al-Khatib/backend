@@ -27,4 +27,19 @@ export const notificationRepository = {
       throw new Error("Error fetching notifications: " + error.message);
     }
   },
+
+  async markAsRead(notificationId) {
+    try {
+      return await NotificationModel.update({
+        data: {
+          is_read: true,
+        },
+        where: {
+          id: notificationId,
+        },
+      });
+    } catch (error) {
+      throw new Error("Error marking notification as read: " + error.message);
+    }
+  },
 };
