@@ -30,3 +30,15 @@ export const getUserNotifications = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const markAsRead = async (req, res) => {
+  const notificationId = Number(req.params.notificationId);
+
+  try {
+    await notificationRepository.markAsRead(notificationId);
+    res.status(200).json({ message: "Notification marked as read." });
+  } catch (error) {
+    console.error("Error in markAsRead:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
