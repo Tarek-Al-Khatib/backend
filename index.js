@@ -10,7 +10,7 @@ import { createSocketServer } from "./websocket/socket.js";
 dotenv.config();
 
 const server = http.createServer(app);
-createSocketServer(server);
+export const io = createSocketServer(server);
 
 const PORT = process.env.PORT;
 

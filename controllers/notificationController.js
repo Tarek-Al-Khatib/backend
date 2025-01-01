@@ -1,5 +1,5 @@
 import { notificationRepository } from "../repositories/notificationsRepository.js";
-
+import { io } from "../index.js";
 export const createNotification = async (req, res) => {
   const { message, type, user_id } = req.body;
 
@@ -10,6 +10,7 @@ export const createNotification = async (req, res) => {
       user_id,
     });
 
+    io.to(`user-${user_id}`).emit("receiveNotification", notification);
     res.status(200).json(notification);
   } catch (error) {
     console.error("Error in createNotification:", error);
