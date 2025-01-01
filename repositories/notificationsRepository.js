@@ -1,4 +1,4 @@
-import { NotificationModel } from "../models/main";
+import { NotificationModel } from "../models/main.js";
 
 export const notificationRepository = {
   async createNotification(notificationData) {

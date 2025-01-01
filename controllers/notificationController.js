@@ -1,4 +1,4 @@
-import { notificationRepository } from "../repositories/notificationsRepository";
+import { notificationRepository } from "../repositories/notificationsRepository.js";
 
 export const createNotification = async (req, res) => {
   const { message, type, user_id } = req.body;

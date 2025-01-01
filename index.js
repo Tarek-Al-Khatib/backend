@@ -2,6 +2,7 @@ import app from "./app/app.js";
 import http from "http";
 import dotenv from "dotenv";
 import authRoutes from "./routes/authRoute.js";
+import notificationRoutes from "./routes/notificationsRoute.js";
 import communityRoutes from "./routes/communityRoute.js";
 import learningRoutes from "./routes/learningRoute.js";
 import { createSocketServer } from "./websocket/socket.js";
