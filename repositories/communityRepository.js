@@ -53,6 +53,7 @@ export const communityRepository = {
       },
       include: {
         creator: true,
+        chats: true,
       },
     });
 
