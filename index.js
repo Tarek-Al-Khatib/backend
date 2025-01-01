@@ -14,6 +14,7 @@ createSocketServer(server);
 const PORT = process.env.PORT;
 
 app.use("/api/auth", authRoutes);
+app.use("/api/notifications", notificationRoutes);
 app.use("/api/community", communityRoutes);
 app.use("/api/learning", learningRoutes);
 
