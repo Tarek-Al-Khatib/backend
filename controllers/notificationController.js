@@ -16,3 +16,17 @@ export const createNotification = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const getUserNotifications = async (req, res) => {
+  const userId = Number(req.params.userId);
+
+  try {
+    const notifications = await notificationRepository.getUserNotifications(
+      userId
+    );
+    res.status(200).json(notifications);
+  } catch (error) {
+    console.error("Error in getUserNotifications:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
