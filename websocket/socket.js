@@ -22,6 +22,10 @@ export function createSocketServer(httpServer) {
       console.log(`User ${socket.id} joined room user-${userId}`);
     });
 
+    socket.on("sendNotification", ({ userId, notification }) => {
+      io.to(`user-${userId}`).emit("receiveNotification", notification);
+    });
+
     socket.on("sendMessage", async ({ channelId, userId, messageContent }) => {
       try {
         const message = await communityRepository.saveMessage(
