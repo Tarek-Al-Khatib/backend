@@ -12,4 +12,19 @@ export const notificationRepository = {
       throw new Error("Error creating notification: " + error.message);
     }
   },
+
+  async getUserNotifications(userId) {
+    try {
+      return await NotificationModel.findMany({
+        where: {
+          user_id: userId,
+        },
+        orderBy: {
+          created_at: "desc",
+        },
+      });
+    } catch (error) {
+      throw new Error("Error fetching notifications: " + error.message);
+    }
+  },
 };
