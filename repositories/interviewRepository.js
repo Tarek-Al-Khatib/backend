@@ -50,4 +50,17 @@ export const interviewRepository = {
 
     return newInterview;
   },
+
+  async updateInterview(interviewId, data) {
+    const updatedInterview = await InterviewModel.update({
+      where: { id: interviewId },
+      data: {
+        feedback: data.feedback ?? undefined,
+        status: data.status ?? undefined,
+        points: data.points ?? undefined,
+      },
+    });
+
+    return updatedInterview;
+  },
 };
