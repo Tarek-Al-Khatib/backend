@@ -110,7 +110,7 @@ export const learningRepository = {
     }
   },
 
-  async getStepsCompletedLastWeek() {
+  async getStepsCompletedLastWeek(userId) {
     const oneWeekAgo = subDays(new Date(), 7);
 
     const steps = await LearningStepModel.findMany({
@@ -118,6 +118,9 @@ export const learningRepository = {
         is_completed: true,
         completed_at: {
           gte: oneWeekAgo,
+        },
+        learning_plan: {
+          user_id: userId,
         },
       },
     });
