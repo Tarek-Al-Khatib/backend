@@ -37,3 +37,20 @@ export const getInterviewInvitations = async (req, res) => {
     });
   }
 };
+export const createInterview = async (req, res) => {
+  try {
+    const data = req.body;
+
+    const newInterview = await interviewRepository.createInterview(data);
+
+    return res.status(200).json({
+      message: "Interview created successfully",
+      data: newInterview,
+    });
+  } catch (error) {
+    console.error("Error creating interview:", error);
+    return res.status(500).json({
+      message: "An error occurred while creating the interview",
+    });
+  }
+};
