@@ -98,7 +98,7 @@ model Interviews {
   score        Float
   feedback     String?        @db.VarChar(500)
   date         DateTime
-  status       Status
+  status       Status         @default(PENDING)
   created_at   DateTime       @default(now())
   points       Int            @default(0)
   user_id      Int
