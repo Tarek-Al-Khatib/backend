@@ -4,6 +4,7 @@ import { getUserInterviews } from "../controllers/personalUserController.js";
 
 const router = express.Router();
 
-router.get("/:userId", authMiddleware, getUserInterviews);
+router.get("/", authMiddleware, getUserInterviews);
+router.get("/invitations", authMiddleware, getInterviewInvitations);
 
 export default router;
