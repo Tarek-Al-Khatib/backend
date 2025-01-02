@@ -95,7 +95,7 @@ model LearningPlans {
 model Interviews {
   id           Int            @id @default(autoincrement())
   type         TypeInterviews
-  score        Float
+  score        Float          @default(0)
   feedback     String?        @db.VarChar(500)
   date         DateTime
   status       Status         @default(PENDING)
