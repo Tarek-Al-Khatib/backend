@@ -1,6 +1,6 @@
 import { UserModel } from "../models/main.js";
 
-export const userRepository = {
+export const personalUserRepository = {
   async getLeaderboardByPoints(userId) {
     const users = await UserModel.findMany({
       orderBy: {

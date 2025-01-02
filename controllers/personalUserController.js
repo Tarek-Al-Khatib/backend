@@ -1,10 +1,12 @@
-import { userRepository } from "../repositories/userRepository.js";
+import { personalUserRepository } from "../repositories/personalUserRepository";
 
 export const getLeaderboardByPoints = async (req, res) => {
   const userId = Number(req.params.userId);
 
   try {
-    const leaderboardData = await userRepository.getLeaderboardByPoints(userId);
+    const leaderboardData = await personalUserRepository.getLeaderboardByPoints(
+      userId
+    );
 
     return res.status(200).json({
       message: "Leaderboard fetched successfully",
@@ -22,7 +24,7 @@ export const getProfile = async (req, res) => {
   const userId = Number(req.params.userId);
 
   try {
-    const profileData = await userRepository.getProfile(userId);
+    const profileData = await personalUserRepository.getProfile(userId);
 
     return res.status(200).json({
       message: "Profile fetched successfully",
