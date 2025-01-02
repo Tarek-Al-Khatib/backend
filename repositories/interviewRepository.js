@@ -1,27 +1,20 @@
 import { InterviewModel } from "../models/main.js";
 
 export const interviewRepository = {
-  async getUserInterviews(userId) {
+  async getInterviewInvitations(userId) {
     const interviews = await InterviewModel.findMany({
       where: {
-        user_id: userId,
-        date: { lte: new Date() },
+        OR: [{ user_id: userId }, { moderator_id: userId }],
+        date: {
+          gt: new Date(),
+        },
       },
       include: {
+        user: true,
         moderator: true,
       },
     });
 
-    return interviews.map((interview) => ({
-      id: interview.id,
-      date: interview.date,
-      interviewer: interview.moderator?.username || "AI",
-      feedback: interview.feedback || "Pending",
-      status:
-        interview.feedback || interview.points === 0
-          ? "Pending"
-          : interview.status,
-      points: interview.points || "Pending",
-    }));
+    return interviews;
   },
 };
