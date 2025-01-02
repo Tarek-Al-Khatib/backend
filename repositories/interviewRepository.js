@@ -40,4 +40,14 @@ export const interviewRepository = {
       points: interview.points || "Pending",
     }));
   },
+
+  async createInterview(interviewData) {
+    const newInterview = await InterviewModel.create({
+      data: {
+        ...interviewData,
+      },
+    });
+
+    return newInterview;
+  },
 };
