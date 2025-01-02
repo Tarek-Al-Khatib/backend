@@ -109,4 +109,19 @@ export const learningRepository = {
       throw new Error(`Learning plan with ID ${stepId} does not exist.`);
     }
   },
+
+  async getStepsCompletedLastWeek() {
+    const oneWeekAgo = subDays(new Date(), 7);
+
+    const steps = await LearningStepModel.findMany({
+      where: {
+        is_completed: true,
+        completed_at: {
+          gte: oneWeekAgo,
+        },
+      },
+    });
+
+    return steps;
+  },
 };
