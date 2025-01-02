@@ -1,4 +1,4 @@
-import { personalUserRepository } from "../repositories/personalUserRepository";
+import { personalUserRepository } from "../repositories/personalUserRepository.js";
 
 export const getLeaderboardByPoints = async (req, res) => {
   const userId = Number(req.params.userId);

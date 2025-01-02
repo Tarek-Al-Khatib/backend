@@ -11,7 +11,7 @@ export const personalUserRepository = {
         id: true,
         username: true,
         points: true,
-        count: {
+        _count: {
           select: {
             interviews: true,
             learning_plans: true,
@@ -26,7 +26,7 @@ export const personalUserRepository = {
         id: true,
         username: true,
         points: true,
-        count: {
+        _count: {
           select: {
             interviews: true,
             learning_plans: true,
@@ -42,15 +42,15 @@ export const personalUserRepository = {
           id: user.id,
           username: user.username,
           points: user.points,
-          interviews: user.count.interviews,
-          learningPlans: user.count.learning_plans,
+          interviews: user._count.interviews,
+          learningPlans: user._count.learning_plans,
         })),
       currentUser: {
         id: userRank.id,
         username: userRank.username,
         points: userRank.points,
-        interviews: userRank.count.interviews,
-        learningPlans: userRank.count.learning_plans,
+        interviews: userRank._count.interviews,
+        learningPlans: userRank._count.learning_plans,
       },
     };
   },
