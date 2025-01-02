@@ -5,6 +5,7 @@ import authRoutes from "./routes/authRoute.js";
 import notificationRoutes from "./routes/notificationsRoute.js";
 import communityRoutes from "./routes/communityRoute.js";
 import learningRoutes from "./routes/learningRoute.js";
+import userRoutes from "./routes/personalUserRoute.js";
 import { createSocketServer } from "./websocket/socket.js";
 
 dotenv.config();
@@ -18,6 +19,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/community", communityRoutes);
 app.use("/api/learning", learningRoutes);
+app.use("/api/user", userRoutes);
 
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
