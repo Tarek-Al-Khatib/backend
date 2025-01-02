@@ -52,4 +52,32 @@ export const userRepository = {
       },
     };
   },
+  async getProfile(userId) {
+    const user = await UserModel.findUniqueOrThrow({
+      where: { id: userId },
+      select: {
+        username: true,
+        email: true,
+        points: true,
+        level: true,
+        user_badges: {
+          include: {
+            badge: true,
+          },
+        },
+      },
+    });
+
+    return {
+      username: user.username,
+      email: user.email,
+      points: user.points,
+      level: user.level,
+      badges: user.user_badges.map((ub) => ({
+        title: ub.badge.title,
+        description: ub.badge.description,
+        icon: ub.badge.icon,
+      })),
+    };
+  },
 };
