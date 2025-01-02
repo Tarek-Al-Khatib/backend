@@ -1,4 +1,4 @@
-import { interviewRepository } from "../repositories/interviewRepository";
+import { interviewRepository } from "../repositories/interviewRepository.js";
 
 export const getUserInterviews = async (req, res) => {
   const userId = Number(req.params.userId);
