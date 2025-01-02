@@ -9,5 +9,5 @@ const router = express.Router();
 
 router.get("/", authMiddleware, getUserInterviews);
 router.get("/invitations", authMiddleware, getInterviewInvitations);
-
+router.post("/", authMiddleware, createInterview);
 export default router;
