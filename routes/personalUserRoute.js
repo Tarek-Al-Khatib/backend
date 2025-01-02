@@ -5,10 +5,10 @@ import { userController } from "../controllers/userController.js";
 const router = express.Router();
 
 router.get(
-  "/leaderboard/:userId",
+  "/leaderboard",
   authMiddleware,
   userController.getLeaderboardByPoints
 );
-router.get("/profile/:userId", authMiddleware, userController.getProfile);
+router.get("/profile", authMiddleware, userController.getProfile);
 
 export default router;

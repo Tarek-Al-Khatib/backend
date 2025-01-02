@@ -36,13 +36,15 @@ export const userRepository = {
     });
 
     return {
-      leaderboard: users.map((user) => ({
-        id: user.id,
-        username: user.username,
-        points: user.points,
-        interviews: user.count.interviews,
-        learningPlans: user.count.learning_plans,
-      })),
+      leaderboard: users
+        .filter((user) => user.id !== userRank.id)
+        .map((user) => ({
+          id: user.id,
+          username: user.username,
+          points: user.points,
+          interviews: user.count.interviews,
+          learningPlans: user.count.learning_plans,
+        })),
       currentUser: {
         id: userRank.id,
         username: userRank.username,
