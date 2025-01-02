@@ -73,6 +73,7 @@ model LearningSteps {
   step_description String   @db.VarChar(300)
   is_completed     Boolean  @default(false)
   created_at       DateTime @default(now())
+  completed_at     DateTime?
   points           Int      @default(0)
   learning_plan_id Int
 
