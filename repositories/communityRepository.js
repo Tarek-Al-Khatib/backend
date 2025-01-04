@@ -71,7 +71,7 @@ export const communityRepository = {
     return joinedCommunity;
   },
 
-  async getUserCommunities(userId) {
+  async getUserCommunities(userId, url) {
     try {
       const communities = await CommunityMemberModel.findMany({
         where: {
@@ -81,7 +81,17 @@ export const communityRepository = {
           community: true,
         },
       });
-      return communities.map((membership) => membership.community);
+      return communities.map((membership) => {
+        const community = membership.community;
+        if (community.community_logo) {
+          community.community_logo = `${url}/uploads/${community.community_logo}`;
+        }
+        if (community.community_banner) {
+          community.community_banner = `${url}/uploads/${community.community_banner}`;
+        }
+
+        return community;
+      });
     } catch (error) {
       console.error("Error in getUserCommunities:", error);
       throw new Error("Failed to fetch user communities.");
