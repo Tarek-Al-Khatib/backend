@@ -1,7 +1,7 @@
-import { Url } from "url";
+import url from "url";
 
 export const fullUrl = (req) => {
-  return URL.format({
+  return url.format({
     protocol: req.protocol,
     host: req.get("host"),
     pathname: req.originalUrl,
