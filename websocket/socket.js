@@ -14,12 +14,10 @@ export function createSocketServer(httpServer) {
 
     socket.on("joinChannel", (channelId) => {
       socket.join(channelId);
-      console.log(`User ${socket.id} joined channel ${channelId}`);
     });
 
     socket.on("joinUserRoom", (userId) => {
       socket.join(`user-${userId}`);
-      console.log(`User ${socket.id} joined room user-${userId}`);
     });
 
     socket.on("sendNotification", ({ userId, notification }) => {
