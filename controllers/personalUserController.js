@@ -1,4 +1,5 @@
 import { personalUserRepository } from "../repositories/personalUserRepository.js";
+import { userRepository } from "../repositories/userRepository.js";
 
 export const getLeaderboardByPoints = async (req, res) => {
   const userId = Number(req.params.userId);
@@ -16,6 +17,24 @@ export const getLeaderboardByPoints = async (req, res) => {
     console.error("Error fetching leaderboard:", error);
     return res.status(500).json({
       message: "An error occurred while fetching the leaderboard",
+    });
+  }
+};
+
+export const getUserById = async (req, res) => {
+  try {
+    const userId = Number(req.params.userId);
+
+    const user = userRepository.findById(userId);
+
+    return res.status(200).json({
+      message: "Fetched user successfuly",
+      user: user,
+    });
+  } catch (error) {
+    console.log("Error fetching the user by id:", error);
+    return res.status(500).json({
+      message: "Error fetching the user by id",
     });
   }
 };
