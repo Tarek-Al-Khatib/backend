@@ -42,11 +42,13 @@ export const getMembers = async (req, res) => {
 export const createCommunity = async (req, res) => {
   const userId = Number(req.params.userId);
   const communityData = req.body;
-
+  const { community_logo, community_banner } = req.files;
   try {
     const community = await communityRepository.createCommunity(
       userId,
-      communityData
+      communityData,
+      community_logo,
+      community_banner
     );
     res.status(200).json(community);
   } catch (error) {
