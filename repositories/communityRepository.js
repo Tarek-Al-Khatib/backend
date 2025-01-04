@@ -4,6 +4,7 @@ import {
   CommunityChannelModel,
   CommunityModel,
 } from "../models/main.js";
+import { fullUrl } from "../utils/getFullURL.js";
 
 export const communityRepository = {
   async getChannels(communityId) {
@@ -71,8 +72,9 @@ export const communityRepository = {
     return joinedCommunity;
   },
 
-  async getUserCommunities(userId, url) {
+  async getUserCommunities(userId, req) {
     try {
+      const url = fullUrl(req);
       const communities = await CommunityMemberModel.findMany({
         where: {
           user_id: userId,
