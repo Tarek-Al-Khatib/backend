@@ -104,10 +104,7 @@ export const getUserCommunities = async (req, res) => {
   const userId = Number(req.params.userId);
 
   try {
-    const communities = await communityRepository.getUserCommunities(
-      userId,
-      req
-    );
+    const communities = await communityRepository.getUserCommunities(userId);
     res.status(200).json(communities);
   } catch (error) {
     console.error("Error in getUserCommunities:", error);

@@ -74,7 +74,6 @@ export const communityRepository = {
 
   async getUserCommunities(userId, req) {
     try {
-      const url = fullUrl(req);
       const communities = await CommunityMemberModel.findMany({
         where: {
           user_id: userId,
@@ -86,10 +85,10 @@ export const communityRepository = {
       return communities.map((membership) => {
         const community = membership.community;
         if (community.community_logo) {
-          community.community_logo = `${url}/uploads/${community.community_logo}`;
+          community.community_logo = `/uploads/${community.community_logo}`;
         }
         if (community.community_banner) {
-          community.community_banner = `${url}/uploads/${community.community_banner}`;
+          community.community_banner = `/uploads/${community.community_banner}`;
         }
 
         return community;

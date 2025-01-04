@@ -9,11 +9,10 @@ import {
   getUserCommunities,
 } from "../controllers/communityController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
-import formidableMiddleware from "../middlewares/formidableMiddlware.js";
 
 const router = express.Router();
 
-router.post("/", authMiddleware, formidableMiddleware, createCommunity);
+router.post("/", authMiddleware, createCommunity);
 router.post("/:communityId/channels", authMiddleware, createChannel);
 router.post("/:communityId/join", authMiddleware, joinCommunity);
 router.get("/:communityId/channels", authMiddleware, getChannels);
