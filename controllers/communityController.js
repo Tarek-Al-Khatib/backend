@@ -41,7 +41,7 @@ export const getMembers = async (req, res) => {
 
 export const createCommunity = async (req, res) => {
   const userId = Number(req.params.userId);
-  const { title, description } = req.body; // Access the text fields (title, description)
+  const { title, description } = req.body;
   const { community_logo, community_banner } = req.files;
   const logoPath = community_logo
     ? `/uploads/${community_logo[0].filename}`
@@ -115,7 +115,10 @@ export const getUserCommunities = async (req, res) => {
   const userId = Number(req.params.userId);
 
   try {
-    const communities = await communityRepository.getUserCommunities(userId);
+    const communities = await communityRepository.getUserCommunities(
+      userId,
+      req
+    );
     res.status(200).json(communities);
   } catch (error) {
     console.error("Error in getUserCommunities:", error);
