@@ -18,4 +18,6 @@ app.use("/api/learning", learningRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/interviews", interviewRoute);
 
+app.use("/uploads", express.static("uploads"));
+
 export default app;
