@@ -34,12 +34,19 @@ export const communityRepository = {
   },
 
   async createCommunity(userId, communityData) {
+    const url = fullUrl(req);
     const community = await CommunityModel.create({
       data: {
         ...communityData,
         creator_id: userId,
       },
     });
+    if (community.community_logo) {
+      community.community_logo = `${url}${community.community_logo}`;
+    }
+    if (community.community_banner) {
+      community.community_banner = `${url}${community.community_banner}`;
+    }
 
     await this.joinCommunity(userId, community.id, "ADMIN");
 

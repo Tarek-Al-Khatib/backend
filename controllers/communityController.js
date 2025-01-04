@@ -59,7 +59,8 @@ export const createCommunity = async (req, res) => {
   try {
     const community = await communityRepository.createCommunity(
       userId,
-      newCommunityData
+      newCommunityData,
+      req
     );
     res.status(200).json(community);
   } catch (error) {
