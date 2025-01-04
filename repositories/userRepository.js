@@ -10,4 +10,12 @@ export const userRepository = {
   async createUser(user) {
     return UserModel.create({ data: user });
   },
+
+  async findById(userId) {
+    return UserModel.findFirstOrThrow({
+      where: {
+        id: userId,
+      },
+    });
+  },
 };
