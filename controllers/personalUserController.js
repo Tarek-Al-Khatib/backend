@@ -25,7 +25,7 @@ export const getUserById = async (req, res) => {
   try {
     const userId = Number(req.params.userId);
 
-    const user = userRepository.findById(userId);
+    const user = await userRepository.findById(userId);
 
     return res.status(200).json({
       message: "Fetched user successfuly",
