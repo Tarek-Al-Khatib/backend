@@ -6,6 +6,9 @@ const formidableMiddleware = (options = {}) => {
     uploadDir: options.uploadDir || "./uploads",
     keepExtensions: options.keepExtensions || true,
     maxFileSize: options.maxFileSize || 10 * 1024 * 1024,
+    filename: (name, ext, part, form) => {
+      return `${Date.now()}-${part.originalFilename}${$ext}`;
+    },
   });
 
   return (req, res, next) => {
