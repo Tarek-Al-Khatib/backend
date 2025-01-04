@@ -9,10 +9,19 @@ import {
   getUserCommunities,
 } from "../controllers/communityController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
+import upload from "../middlewares/multerMiddleware.js";
 
 const router = express.Router();
 
-router.post("/", authMiddleware, createCommunity);
+router.post(
+  "/",
+  authMiddleware,
+  upload.fields([
+    { name: "community_logo", maxCount: 1 },
+    { name: "community_banner", maxCount: 1 },
+  ]),
+  createCommunity
+);
 router.post("/:communityId/channels", authMiddleware, createChannel);
 router.post("/:communityId/join", authMiddleware, joinCommunity);
 router.get("/:communityId/channels", authMiddleware, getChannels);
