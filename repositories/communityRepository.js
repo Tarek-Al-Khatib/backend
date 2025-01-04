@@ -72,7 +72,7 @@ export const communityRepository = {
     return joinedCommunity;
   },
 
-  async getUserCommunities(userId, req) {
+  async getUserCommunities(userId) {
     try {
       const communities = await CommunityMemberModel.findMany({
         where: {

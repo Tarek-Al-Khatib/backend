@@ -41,14 +41,25 @@ export const getMembers = async (req, res) => {
 
 export const createCommunity = async (req, res) => {
   const userId = Number(req.params.userId);
-  const communityData = req.body;
+  const { title, description } = req.body; // Access the text fields (title, description)
   const { community_logo, community_banner } = req.files;
+  const logoPath = community_logo
+    ? `/uploads/${community_logo[0].filename}`
+    : null;
+  const bannerPath = community_banner
+    ? `/uploads/${community_banner[0].filename}`
+    : null;
+
+  const newCommunityData = {
+    title,
+    description,
+    community_logo: logoPath,
+    community_banner: bannerPath,
+  };
   try {
     const community = await communityRepository.createCommunity(
       userId,
-      communityData,
-      community_logo,
-      community_banner
+      newCommunityData
     );
     res.status(200).json(community);
   } catch (error) {
