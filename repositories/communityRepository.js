@@ -33,7 +33,7 @@ export const communityRepository = {
     });
   },
 
-  async createCommunity(userId, communityData) {
+  async createCommunity(userId, communityData, req) {
     const url = fullUrl(req);
     const community = await CommunityModel.create({
       data: {
