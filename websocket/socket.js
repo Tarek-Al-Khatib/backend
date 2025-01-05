@@ -40,6 +40,14 @@ export function createSocketServer(httpServer) {
     socket.on("disconnect", () => {
       console.log("User disconnected:", socket.id);
     });
+
+    socket.on("leavingChannel", (channelId) => {
+      socket.leave(channelId);
+    });
+
+    socket.on("leaveRoom", (userId) => {
+      socket.leave(`user-${userId}`);
+    });
   });
 
   return io;
