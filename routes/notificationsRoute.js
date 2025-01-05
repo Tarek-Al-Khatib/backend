@@ -9,7 +9,7 @@ import { authMiddleware } from "../middlewares/authMiddleware.js";
 const router = express.Router();
 
 router.post("/", authMiddleware, createNotification);
-router.get("/:userId", authMiddleware, getUserNotifications);
+router.get("/", authMiddleware, getUserNotifications);
 router.patch("/:notificationId/read", authMiddleware, markAsRead);
 
 export default router;
