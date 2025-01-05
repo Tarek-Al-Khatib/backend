@@ -1,13 +1,14 @@
 import { notificationRepository } from "../repositories/notificationsRepository.js";
 import { io } from "../index.js";
 export const createNotification = async (req, res) => {
-  const { message, type, user_id } = req.body;
+  const userId = Number(req.params.userId);
+  const { message, type } = req.body;
 
   try {
     const notification = await notificationRepository.createNotification({
       message,
       type,
-      user_id,
+      userId,
     });
 
     io.to(`user-${user_id}`).emit("receiveNotification", notification);
