@@ -55,9 +55,22 @@ export const interviewRepository = {
     const updatedInterview = await InterviewModel.update({
       where: { id: interviewId },
       data: {
-        feedback: data.feedback ?? undefined,
-        status: data.status ?? undefined,
-        points: data.points ?? undefined,
+        feedback: data.feedback,
+        status: data.status,
+        points: data.points,
+      },
+    });
+
+    return updatedInterview;
+  },
+
+  async updateStatus(interviewId, status) {
+    const updatedInterview = await InterviewModel.update({
+      where: {
+        id: interviewId,
+      },
+      data: {
+        status: status,
       },
     });
 
