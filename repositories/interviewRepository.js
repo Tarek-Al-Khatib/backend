@@ -34,7 +34,9 @@ export const interviewRepository = {
       interviewer: interview.moderator || "AI",
       feedback: interview.feedback || "Pending",
       status:
-        interview.feedback || interview.points === 0 ? "Pending" : "Completed",
+        interview.feedback === null && interview.points === 0
+          ? "Pending"
+          : "Completed",
       points: interview.points || "Pending",
     }));
   },
