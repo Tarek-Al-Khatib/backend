@@ -31,12 +31,10 @@ export const interviewRepository = {
     return interviews.map((interview) => ({
       id: interview.id,
       date: interview.date,
-      interviewer: interview.moderator?.username || "AI",
+      interviewer: interview.moderator || "AI",
       feedback: interview.feedback || "Pending",
       status:
-        interview.feedback || interview.points === 0
-          ? "Pending"
-          : interview.status,
+        interview.feedback || interview.points === 0 ? "Pending" : "Completed",
       points: interview.points || "Pending",
     }));
   },
