@@ -35,43 +35,14 @@ export const personalUserRepository = {
       },
     });
 
-    return (() => {
-      const leaderboard = users
-        .filter((user) => user.id !== userRank.id)
-        .map((user) => ({
-          id: user.id,
-          username: user.username,
-          points: user.points,
-          interviews: user._count.interviews,
-          learningPlans: user._count.learning_plans,
-        }));
-
-      const fullLeaderboard = [
-        ...leaderboard,
-        {
-          id: userRank.id,
-          username: userRank.username,
-          points: userRank.points,
-          interviews: userRank._count.interviews,
-          learningPlans: userRank._count.learning_plans,
-        },
-      ];
-
-      const currentUserRank =
-        fullLeaderboard.findIndex((user) => user.id === userRank.id) + 1;
-
-      return {
-        leaderboard,
-        currentUser: {
-          id: userRank.id,
-          username: userRank.username,
-          points: userRank.points,
-          interviews: userRank._count.interviews,
-          learningPlans: userRank._count.learning_plans,
-          rank: currentUserRank,
-        },
-      };
-    })();
+    return (leaderboard = users.map((user, index) => ({
+      id: user.id,
+      username: user.username,
+      points: user.points,
+      interviews: user._count.interviews,
+      learningPlans: user._count.learning_plans,
+      rank: index,
+    })));
   },
   async getProfile(userId) {
     const user = await UserModel.findUniqueOrThrow({
