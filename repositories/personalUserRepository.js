@@ -20,29 +20,14 @@ export const personalUserRepository = {
       },
     });
 
-    const userRank = await UserModel.findUniqueOrThrow({
-      where: { id: userId },
-      select: {
-        id: true,
-        username: true,
-        points: true,
-        _count: {
-          select: {
-            interviews: true,
-            learning_plans: true,
-          },
-        },
-      },
-    });
-
-    return (leaderboard = users.map((user, index) => ({
+    return users.map((user, index) => ({
       id: user.id,
       username: user.username,
       points: user.points,
       interviews: user._count.interviews,
       learningPlans: user._count.learning_plans,
       rank: index,
-    })));
+    }));
   },
   async getProfile(userId) {
     const user = await UserModel.findUniqueOrThrow({
