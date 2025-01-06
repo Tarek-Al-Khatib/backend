@@ -31,7 +31,7 @@ export function createSocketServer(httpServer) {
           userId,
           messageContent
         );
-        io.to(channelId).emit("receiveMessage", message);
+        socket.to(channelId).emit("receiveMessage", message);
       } catch (error) {
         console.error("Error saving message:", error);
       }
