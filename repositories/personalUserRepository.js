@@ -6,7 +6,7 @@ export const personalUserRepository = {
       orderBy: {
         points: "desc",
       },
-      take: 20,
+      take: 9,
       select: {
         id: true,
         username: true,
@@ -35,8 +35,8 @@ export const personalUserRepository = {
       },
     });
 
-    return {
-      leaderboard: users
+    return (() => {
+      const leaderboard = users
         .filter((user) => user.id !== userRank.id)
         .map((user) => ({
           id: user.id,
@@ -44,15 +44,34 @@ export const personalUserRepository = {
           points: user.points,
           interviews: user._count.interviews,
           learningPlans: user._count.learning_plans,
-        })),
-      currentUser: {
-        id: userRank.id,
-        username: userRank.username,
-        points: userRank.points,
-        interviews: userRank._count.interviews,
-        learningPlans: userRank._count.learning_plans,
-      },
-    };
+        }));
+
+      const fullLeaderboard = [
+        ...leaderboard,
+        {
+          id: userRank.id,
+          username: userRank.username,
+          points: userRank.points,
+          interviews: userRank._count.interviews,
+          learningPlans: userRank._count.learning_plans,
+        },
+      ];
+
+      const currentUserRank =
+        fullLeaderboard.findIndex((user) => user.id === userRank.id) + 1;
+
+      return {
+        leaderboard,
+        currentUser: {
+          id: userRank.id,
+          username: userRank.username,
+          points: userRank.points,
+          interviews: userRank._count.interviews,
+          learningPlans: userRank._count.learning_plans,
+          rank: currentUserRank,
+        },
+      };
+    })();
   },
   async getProfile(userId) {
     const user = await UserModel.findUniqueOrThrow({
