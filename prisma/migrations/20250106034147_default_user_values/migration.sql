@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE `users` MODIFY `level` INTEGER NOT NULL DEFAULT 1,
+    MODIFY `points` INTEGER NOT NULL DEFAULT 0;
