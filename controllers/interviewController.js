@@ -57,6 +57,7 @@ export const createInterview = async (req, res) => {
 
 export const updateInterview = async (req, res) => {
   const interviewId = Number(req.params.interviewId);
+  const userId = Number(req.params.userId);
   const data = req.body;
 
   try {
@@ -79,12 +80,14 @@ export const updateInterview = async (req, res) => {
 
 export const updateStatus = async (req, res) => {
   const interviewId = Number(req.params.interviewId);
+  const userId = Number(req.params.userId);
   const { status } = req.body;
 
   try {
     const updatedInterview = await interviewRepository.updateInterview(
       interviewId,
-      status
+      status,
+      userId
     );
 
     return res.status(200).json({

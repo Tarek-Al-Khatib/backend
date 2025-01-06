@@ -51,9 +51,12 @@ export const interviewRepository = {
     return newInterview;
   },
 
-  async updateInterview(interviewId, data) {
+  async updateInterview(interviewId, data, userId) {
     const updatedInterview = await InterviewModel.update({
-      where: { id: interviewId },
+      where: {
+        id: interviewId,
+        OR: [{ user_id: userId }, { moderator_id: userId }],
+      },
       data: {
         feedback: data.feedback,
         status: data.status,
@@ -64,10 +67,11 @@ export const interviewRepository = {
     return updatedInterview;
   },
 
-  async updateStatus(interviewId, status) {
+  async updateStatus(interviewId, status, userId) {
     const updatedInterview = await InterviewModel.update({
       where: {
         id: interviewId,
+        OR: [{ user_id: userId }, { moderator_id: userId }],
       },
       data: {
         status: status,
