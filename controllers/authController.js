@@ -18,13 +18,14 @@ export const register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = await userRepository.createUser({
-      username,
-      email,
-      password: hashedPassword,
-      level: 1,
-      points: 0,
-    });
+    const user = await userRepository.createUser(
+      {
+        username,
+        email,
+        password: hashedPassword,
+      },
+      req
+    );
 
     const token = jwtHelper.generateToken({
       userId: user.id,
@@ -41,6 +42,7 @@ export const register = async (req, res) => {
         email: user.email,
         level: user.level,
         points: user.points,
+        profile_pic: user.profile_pic,
       },
       token,
     });
