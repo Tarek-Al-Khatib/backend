@@ -60,13 +60,35 @@ export const updateInterview = async (req, res) => {
   const data = req.body;
 
   try {
-    const updatedInterview = await personalUserRepository.updateInterview(
+    const updatedInterview = await interviewRepository.updateInterview(
       interviewId,
       data
     );
 
     return res.status(200).json({
       message: "Interview updated successfully",
+      data: updatedInterview,
+    });
+  } catch (error) {
+    console.error("Error updating interview:", error);
+    return res.status(500).json({
+      message: "An error occurred while updating the interview",
+    });
+  }
+};
+
+export const updateStatus = async (req, res) => {
+  const interviewId = Number(req.params.interviewId);
+  const { status } = req.body;
+
+  try {
+    const updatedInterview = await interviewRepository.updateInterview(
+      interviewId,
+      status
+    );
+
+    return res.status(200).json({
+      message: "Interview status updated successfully",
       data: updatedInterview,
     });
   } catch (error) {
