@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.get("/leaderboard", authMiddleware, getLeaderboardByPoints);
 router.get("/profile", authMiddleware, getProfile);
-router.get("/:userId", authMiddleware, getUserById);
+router.get("/", authMiddleware, getUserById);
 router.put(
   "/image",
   authMiddleware,

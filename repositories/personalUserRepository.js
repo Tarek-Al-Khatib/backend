@@ -35,6 +35,7 @@ export const personalUserRepository = {
       interviews: user._count.interviews,
       learningPlans: user._count.learning_plans,
       isCurrentUser: user.id === userId,
+      profile_pic: user.profile_pic,
       rank: sortedUsers.findIndex((u) => u.id === user.id),
     }));
 
