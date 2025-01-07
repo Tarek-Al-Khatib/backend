@@ -1,4 +1,5 @@
 import { UserModel } from "../models/main.js";
+import { fullUrl } from "../utils/getFullURL.js";
 
 export const personalUserRepository = {
   async getLeaderboardByPoints(userId) {
@@ -79,5 +80,16 @@ export const personalUserRepository = {
         icon: ub.badge.icon,
       })),
     };
+  },
+
+  async updatePicture(profileImageURL, req) {
+    const url = fullUrl(req);
+    const user = await UserModel.update({
+      data: {
+        profile_pic: `${url}/uploads/${profileImageURL}`,
+      },
+    });
+
+    return user;
   },
 };
