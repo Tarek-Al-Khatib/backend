@@ -84,7 +84,7 @@ export const updateStatus = async (req, res) => {
   const { status } = req.body;
 
   try {
-    const updatedInterview = await interviewRepository.updateInterview(
+    const updatedInterview = await interviewRepository.updateStatus(
       interviewId,
       status,
       userId
