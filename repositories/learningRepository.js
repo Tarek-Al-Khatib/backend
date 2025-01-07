@@ -68,7 +68,7 @@ export const learningRepository = {
   async markAsDone(planId) {
     const plan = await LearningPlanModel.update({
       where: { id: planId },
-      data: { is_completed: true },
+      data: { is_completed: true, completed_at: Date.now() },
     });
 
     await LearningStepModel.updateMany({
@@ -82,7 +82,7 @@ export const learningRepository = {
   async markStepAsDone(stepId) {
     const step = await LearningStepModel.update({
       where: { id: stepId },
-      data: { is_completed: true },
+      data: { is_completed: true, completed_at: Date.now() },
     });
 
     return step;
@@ -111,7 +111,7 @@ export const learningRepository = {
   },
 
   async getStepsCompletedLastWeek(userId) {
-    const oneWeekAgo = subDays(new Date(), 7);
+    const oneWeekAgo = new Date(new Date() - 7);
 
     const steps = await LearningStepModel.findMany({
       where: {
