@@ -60,12 +60,9 @@ export const getProfile = async (req, res) => {
 export const updateProfileImage = async (req, res) => {
   const userId = Number(req.params.userId);
   const { profile_image } = req.files;
-  const profile_image_path = community_logo
-    ? `/uploads/${profile_image.filename}`
-    : null;
   try {
     const user = await personalUserRepository.updatePicture(
-      profile_image_path,
+      profile_image[0].filename,
       userId,
       req
     );

@@ -6,11 +6,16 @@ import {
   getUserById,
   updateProfileImage,
 } from "../controllers/personalUserController.js";
-
+import upload from "../middlewares/multerMiddleware.js";
 const router = express.Router();
 
 router.get("/leaderboard", authMiddleware, getLeaderboardByPoints);
 router.get("/profile", authMiddleware, getProfile);
 router.get("/:userId", authMiddleware, getUserById);
-router.put("/image", authMiddleware, updateProfileImage);
+router.put(
+  "/image",
+  authMiddleware,
+  upload.fields([{ name: "profile_image", maxCount: 1 }]),
+  updateProfileImage
+);
 export default router;

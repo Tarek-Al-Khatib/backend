@@ -82,14 +82,14 @@ export const personalUserRepository = {
     };
   },
 
-  async updatePicture(profileImageURL, userId, req) {
+  async updatePicture(profileImageName, userId, req) {
     const url = fullUrl(req);
     const user = await UserModel.update({
       where: {
         id: userId,
       },
       data: {
-        profile_pic: `${url}/uploads/${profileImageURL}`,
+        profile_pic: `${url}/uploads/${profileImageName}`,
       },
     });
 
