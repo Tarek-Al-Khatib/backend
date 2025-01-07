@@ -56,3 +56,28 @@ export const getProfile = async (req, res) => {
     });
   }
 };
+
+export const updateProfileImage = async (req, res) => {
+  const userId = Number(req.params.userId);
+  const { profile_image } = req.files;
+  const profile_image_path = community_logo
+    ? `/uploads/${profile_image.filename}`
+    : null;
+  try {
+    const user = await personalUserRepository.updatePicture(
+      profile_image_path,
+      userId,
+      req
+    );
+
+    return res.status(200).json({
+      message: "Profile Updated successfully",
+      data: user,
+    });
+  } catch (error) {
+    console.error("Error updating image profile:", error);
+    return res.status(500).json({
+      message: "An error occurred while updating image profile",
+    });
+  }
+};
