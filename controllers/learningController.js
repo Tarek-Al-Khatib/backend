@@ -56,7 +56,7 @@ export const updatePlan = async (req, res) => {
 };
 
 export const markPlanAsDone = async (req, res) => {
-  const planId = Number(req.body.planId);
+  const planId = Number(req.params.planId);
 
   try {
     const markedPlan = await learningRepository.markAsDone(planId);
@@ -73,7 +73,7 @@ export const markPlanAsDone = async (req, res) => {
 };
 
 export const markStepAsDone = async (req, res) => {
-  const stepId = Number(req.body.stepId);
+  const stepId = Number(req.params.stepId);
 
   try {
     const markedStep = await learningRepository.markStepAsDone(stepId);
