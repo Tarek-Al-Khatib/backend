@@ -1,5 +1,6 @@
 import { LearningPlanModel, UserModel } from "../models/main.js";
 import { LearningStepModel } from "../models/main.js";
+import { incrementUserPoints } from "../utils/IncrementUserPoints.js";
 
 export const learningRepository = {
   async getPlansByUserId(userId) {
@@ -80,21 +81,7 @@ export const learningRepository = {
       },
     });
 
-    const user = await UserModel.update({
-      data: {
-        points: { increment: 15 },
-      },
-      where: {
-        id: userId,
-      },
-    });
-
-    console.log(
-      "Increment user points by ",
-      15 * steps.length,
-      ". He has ",
-      user.points
-    );
+    await incrementUserPoints(userId, 15 * steps.count);
 
     return plan;
   },
@@ -109,16 +96,7 @@ export const learningRepository = {
       },
     });
 
-    const user = await UserModel.update({
-      data: {
-        points: { increment: 15 },
-      },
-      where: {
-        id: userId,
-      },
-    });
-
-    console.log("Increment user points by ", 15, ". He has ", user.points);
+    await incrementUserPoints(userId, 25);
 
     return step;
   },

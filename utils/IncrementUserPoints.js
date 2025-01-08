@@ -4,7 +4,7 @@ export const incrementUserPoints = async (userId, points) => {
   try {
     await UserModel.update({
       data: {
-        points: { increment: 15 },
+        points: { increment: points },
       },
       where: {
         id: userId,
