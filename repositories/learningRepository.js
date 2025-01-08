@@ -1,4 +1,4 @@
-import { LearningPlanModel } from "../models/main.js";
+import { LearningPlanModel, UserModel } from "../models/main.js";
 import { LearningStepModel } from "../models/main.js";
 
 export const learningRepository = {
@@ -71,7 +71,7 @@ export const learningRepository = {
       data: { is_completed: true },
     });
 
-    await LearningStepModel.updateMany({
+    const steps = await LearningStepModel.updateMany({
       where: { learning_plan_id: planId },
       data: {
         is_completed: true,
@@ -79,6 +79,18 @@ export const learningRepository = {
         points: { increment: 15 },
       },
     });
+    const user = await UserModel.update({
+      data: {
+        points: { increment: 15 * steps.length },
+      },
+    });
+
+    console.log(
+      "Increment user points by ",
+      15 * steps.length,
+      ". He has ",
+      user.points
+    );
 
     return plan;
   },
@@ -92,6 +104,14 @@ export const learningRepository = {
         points: { increment: 25 },
       },
     });
+
+    const user = await UserModel.update({
+      data: {
+        points: { increment: 15 },
+      },
+    });
+
+    console.log("Increment user points by ", 15, ". He has ", user.points);
 
     return step;
   },
