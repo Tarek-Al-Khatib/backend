@@ -20,7 +20,16 @@ export const addPlan = async (req, res) => {
 
   try {
     const newPlan = await learningRepository.addPlan(planData, userId, steps);
-
+    sendnotification(
+      "INFO",
+      `Plan ${planData.title} Added at ${new Date(
+        selectedChannel.created_at
+      ).toLocaleString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })}`
+    );
     res.status(200).json({
       message: "Learning plan added successfully.",
       plan: newPlan,
