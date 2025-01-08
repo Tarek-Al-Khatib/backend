@@ -1,4 +1,6 @@
+import moment from "moment";
 import { learningRepository } from "../repositories/learningRepository.js";
+import { sendnotification } from "../utils/sendNotification.js";
 
 export const getPlans = async (req, res) => {
   const userId = Number(req.params.userId);
@@ -60,6 +62,14 @@ export const markPlanAsDone = async (req, res) => {
   const userId = Number(req.params.userId);
   try {
     const markedPlan = await learningRepository.markAsDone(planId, userId);
+    sendnotification(
+      "INFO",
+      `Plan completed at ${new Date().toLocaleString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })}`
+    );
     res.status(200).json({
       message: "Plan marked as done successfully.",
       plan: markedPlan,
@@ -78,6 +88,14 @@ export const markStepAsDone = async (req, res) => {
 
   try {
     const markedStep = await learningRepository.markStepAsDone(stepId, userId);
+    sendnotification(
+      "INFO",
+      `Step completed at ${new Date().toLocaleString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })}`
+    );
     res.status(200).json({
       message: "Step marked as done successfully.",
       step: markedStep,
