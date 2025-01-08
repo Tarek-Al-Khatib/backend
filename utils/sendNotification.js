@@ -1,15 +1,15 @@
 import { io } from "../index.js";
 import { notificationRepository } from "../repositories/notificationsRepository.js";
 
-export const sendnotification = async (userId, type, message) => {
+export const sendnotification = async (user_id, type, message) => {
   try {
     const notification = await notificationRepository.createNotification({
       message,
       type,
-      userId,
+      user_id,
     });
 
-    io.to(`user-${userId}`).emit("receiveNotification", notification);
+    io.to(`user-${user_id}`).emit("receiveNotification", notification);
   } catch (error) {
     console.error("Error in createNotification:", error);
   }
