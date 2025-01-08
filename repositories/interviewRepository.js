@@ -1,4 +1,5 @@
 import { InterviewModel, UserModel } from "../models/main.js";
+import { incrementUserPoints } from "../utils/IncrementUserPoints.js";
 
 export const interviewRepository = {
   async getInterviewInvitations(userId) {
@@ -63,6 +64,8 @@ export const interviewRepository = {
         points: data.points,
       },
     });
+
+    await incrementUserPoints(userId, data.points);
 
     return updatedInterview;
   },

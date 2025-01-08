@@ -1,4 +1,4 @@
-import { UserModel } from "../models/main";
+import { UserModel } from "../models/main.js";
 
 export const incrementUserPoints = async (userId, points) => {
   try {
