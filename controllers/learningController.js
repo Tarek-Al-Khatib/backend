@@ -1,4 +1,3 @@
-import moment from "moment";
 import { learningRepository } from "../repositories/learningRepository.js";
 import { sendnotification } from "../utils/sendNotification.js";
 
@@ -21,10 +20,9 @@ export const addPlan = async (req, res) => {
   try {
     const newPlan = await learningRepository.addPlan(planData, userId, steps);
     sendnotification(
+      userId,
       "INFO",
-      `Plan ${planData.title} Added at ${new Date(
-        selectedChannel.created_at
-      ).toLocaleString("en-US", {
+      `Plan ${planData.title} Added at ${new Date().toLocaleString("en-US", {
         year: "numeric",
         month: "long",
         day: "numeric",
@@ -72,6 +70,7 @@ export const markPlanAsDone = async (req, res) => {
   try {
     const markedPlan = await learningRepository.markAsDone(planId, userId);
     sendnotification(
+      userId,
       "INFO",
       `Plan completed at ${new Date().toLocaleString("en-US", {
         year: "numeric",
@@ -98,6 +97,7 @@ export const markStepAsDone = async (req, res) => {
   try {
     const markedStep = await learningRepository.markStepAsDone(stepId, userId);
     sendnotification(
+      userId,
       "INFO",
       `Step completed at ${new Date().toLocaleString("en-US", {
         year: "numeric",
