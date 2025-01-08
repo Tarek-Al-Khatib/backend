@@ -2,32 +2,33 @@ import { UserModel } from "../models/main.js";
 
 export const incrementUserPoints = async (userId, points) => {
   try {
-    const user = await UserModel.findFirstOrThrow({ where: { id: userId } });
-    if (user) {
-      const newPoints = user.points + points;
-      const levelThreshold = user.level * 50;
+    const user = await UserModel.findUnique({ where: { id: userId } });
+    if (!user) throw new Error(`User with ID ${userId} not found`);
 
-      while (newPoints >= levelThreshold) {
-        user.level += 1;
-        levelThreshold = user.level * 50;
-      }
+    let newPoints = user.points + points;
+    let levelThreshold = user.level * 50;
 
-      user.points = newPoints;
+    while (newPoints >= levelThreshold) {
+      user.level += 1;
+      levelThreshold = user.level * 50;
     }
 
     await UserModel.update({
       data: {
-        points: user.points,
+        points: newPoints,
         level: user.level,
       },
       where: {
         id: userId,
       },
     });
+
+    return true;
   } catch (error) {
-    console.log(error);
+    console.error(
+      `Error incrementing points for user ID ${userId}:`,
+      error.message
+    );
     return false;
   }
-
-  return true;
 };
