@@ -65,7 +65,7 @@ export const learningRepository = {
     });
   },
 
-  async markAsDone(planId) {
+  async markAsDone(planId, userId) {
     const plan = await LearningPlanModel.update({
       where: { id: planId },
       data: { is_completed: true },
@@ -79,9 +79,13 @@ export const learningRepository = {
         points: { increment: 15 },
       },
     });
+
     const user = await UserModel.update({
       data: {
-        points: { increment: 15 * steps.length },
+        points: { increment: 15 },
+      },
+      where: {
+        id: userId,
       },
     });
 
@@ -95,7 +99,7 @@ export const learningRepository = {
     return plan;
   },
 
-  async markStepAsDone(stepId) {
+  async markStepAsDone(stepId, userId) {
     const step = await LearningStepModel.update({
       where: { id: stepId },
       data: {
@@ -108,6 +112,9 @@ export const learningRepository = {
     const user = await UserModel.update({
       data: {
         points: { increment: 15 },
+      },
+      where: {
+        id: userId,
       },
     });
 

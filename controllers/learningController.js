@@ -57,9 +57,9 @@ export const updatePlan = async (req, res) => {
 
 export const markPlanAsDone = async (req, res) => {
   const planId = Number(req.params.planId);
-
+  const userId = Number(req.params.userId);
   try {
-    const markedPlan = await learningRepository.markAsDone(planId);
+    const markedPlan = await learningRepository.markAsDone(planId, userId);
     res.status(200).json({
       message: "Plan marked as done successfully.",
       plan: markedPlan,
@@ -74,9 +74,10 @@ export const markPlanAsDone = async (req, res) => {
 
 export const markStepAsDone = async (req, res) => {
   const stepId = Number(req.params.stepId);
+  const userId = Number(req.params.userId);
 
   try {
-    const markedStep = await learningRepository.markStepAsDone(stepId);
+    const markedStep = await learningRepository.markStepAsDone(stepId, userId);
     res.status(200).json({
       message: "Step marked as done successfully.",
       step: markedStep,
