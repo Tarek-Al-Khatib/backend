@@ -6,6 +6,7 @@ import communityRoutes from "../routes/communityRoute.js";
 import interviewRoute from "../routes/interviewRoute.js";
 import learningRoutes from "../routes/learningRoute.js";
 import userRoutes from "../routes/personalUserRoute.js";
+import videoRoutes from "../routes/videoRoute.js";
 const app = express();
 
 app.use(cors());
@@ -17,6 +18,7 @@ app.use("/api/community", communityRoutes);
 app.use("/api/learning", learningRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/interviews", interviewRoute);
+app.use("/api/meeting", videoRoutes);
 
 app.use("/uploads", express.static("uploads"));
 
