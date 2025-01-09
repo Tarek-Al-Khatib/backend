@@ -81,19 +81,6 @@ export const interviewRepository = {
       },
     });
 
-    const user = await UserModel.update({
-      data: {
-        points: { increment: data.points },
-      },
-    });
-
-    console.log(
-      "Increment user points by ",
-      data.points,
-      ". He has ",
-      user.points
-    );
-
     return updatedInterview;
   },
 };

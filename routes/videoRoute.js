@@ -14,7 +14,7 @@ router.get("/interview-mod/:roomId", authMiddleware, async (req, res) => {
       .status(200)
       .json({ message: `Created the room with id ${roomId}`, room: newRoom });
   } else {
-    res.status(200).json(room);
+    res.status(200).json({ message: `Fetched room ${roomId}`, room: room });
   }
 });
 
