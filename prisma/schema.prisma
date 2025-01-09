@@ -104,6 +104,7 @@ model Interviews {
   points       Int            @default(0)
   user_id      Int
   moderator_id Int
+  completed_at DateTime?
 
   user      Users @relation(name: "InterviewedUser", fields: [user_id], references: [id])
   moderator Users @relation(name: "InterviewModerator", fields: [moderator_id], references: [id])
