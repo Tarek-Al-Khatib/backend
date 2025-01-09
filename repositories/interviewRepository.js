@@ -83,4 +83,17 @@ export const interviewRepository = {
 
     return updatedInterview;
   },
+
+  async interviewCompleted(interviewId) {
+    const updatedInterview = await InterviewModel.update({
+      where: {
+        id: interviewId,
+      },
+      data: {
+        completed_at: new Date(),
+      },
+    });
+
+    return updatedInterview;
+  },
 };
