@@ -13,7 +13,7 @@ const headers = {
 
 export const getRoom = async (room) => {
   try {
-    const response = await fetch(`https://workwise.daily.co/rooms/${room}`, {
+    let response = await fetch(`https://api.daily.co/v1/rooms/${room}`, {
       method: "GET",
       headers,
     });
@@ -28,7 +28,7 @@ export const getRoom = async (room) => {
 
 export const createRoom = async (room) => {
   try {
-    const response = await fetch("https://workwise.daily.co/rooms", {
+    let response = await fetch("https://api.daily.co/v1/rooms", {
       method: "POST",
       headers,
       body: JSON.stringify({
