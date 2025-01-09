@@ -101,3 +101,23 @@ export const updateStatus = async (req, res) => {
     });
   }
 };
+
+export const completedInterview = async (req, res) => {
+  const interviewId = Number(req.params.interviewId);
+
+  try {
+    const updatedInterview = await interviewRepository.completedInterview(
+      interviewId
+    );
+
+    return res.status(200).json({
+      message: "Interview completed successfully",
+      data: updatedInterview,
+    });
+  } catch (error) {
+    console.error("Error completing interview:", error);
+    return res.status(500).json({
+      message: "An error occurred while updating the interview",
+    });
+  }
+};
