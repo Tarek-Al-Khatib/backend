@@ -6,8 +6,8 @@ export const interviewRepository = {
     const interviews = await InterviewModel.findMany({
       where: {
         OR: [{ user_id: userId }, { moderator_id: userId }],
-        date: {
-          gt: new Date(),
+        completed_at: {
+          not: null,
         },
       },
       include: {
@@ -84,7 +84,7 @@ export const interviewRepository = {
     return updatedInterview;
   },
 
-  async interviewCompleted(interviewId) {
+  async completedInterview(interviewId) {
     const updatedInterview = await InterviewModel.update({
       where: {
         id: interviewId,
