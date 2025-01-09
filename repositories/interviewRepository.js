@@ -6,9 +6,7 @@ export const interviewRepository = {
     const interviews = await InterviewModel.findMany({
       where: {
         OR: [{ user_id: userId }, { moderator_id: userId }],
-        completed_at: {
-          not: null,
-        },
+        completed_at: null,
       },
       include: {
         user: true,
