@@ -99,3 +99,66 @@ const lipSyncMessage = async (id) => {
   );
   console.log(`Lip sync done in ${new Date().getTime() - time}ms`);
 };
+
+export const interviewChat = async (req, res) => {
+  const userMessage = req.body.message;
+  if (!elevenLabsApiKey || openai.apiKey === "-") {
+    res.send({
+      messages: [
+        {
+          text: "Please my dear, don't forget to add your API keys!",
+          audio: await audioFileToBase64("audios/api_0.wav"),
+          lipsync: await readJsonTranscript("audios/api_0.json"),
+          facialExpression: "angry",
+          animation: "Angry",
+        },
+        {
+          text: "You don't want to ruin Wawa Sensei with a crazy ChatGPT and ElevenLabs bill, right?",
+          audio: await audioFileToBase64("audios/api_1.wav"),
+          lipsync: await readJsonTranscript("audios/api_1.json"),
+          facialExpression: "smile",
+          animation: "Laughing",
+        },
+      ],
+    });
+    return;
+  }
+
+  const completion = await openai.chat.completions.create({
+    model: "gpt-4o-mini",
+    response_format: {
+      type: "json_object",
+    },
+    messages: [
+      {
+        role: "system",
+        content: `
+        You are a virtual HR Manager, you will be interviewing a candidate.
+        You will always reply with one JSON formatted message.
+        The message has a text, facialExpression, and animation property.
+        The different facial expressions are: smile, sad, angry, surprised, funnyFace, and default.
+        The different animations are: Talking_0, Talking_1, Talking_2, and Idle. 
+        `,
+      },
+      {
+        role: "user",
+        content: userMessage || "Hello",
+      },
+    ],
+  });
+  let messages = JSON.parse(completion.choices[0].message.content);
+  console.log(messages);
+  if (messages.messages) {
+    messages = messages.messages;
+  }
+  const id = `${new Date().getFullYear()}${new Date().getMilliseconds()}`;
+  const message = messages;
+  const fileName = `audios/message_${id}.mp3`;
+  const textInput = message.text;
+  await textToSpeech(textInput, fileName);
+  await lipSyncMessage(id);
+  message.audio = await audioFileToBase64(fileName);
+  message.lipsync = await readJsonTranscript(`audios/message_${id}.json`);
+
+  res.send({ messages });
+};
