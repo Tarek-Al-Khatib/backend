@@ -88,3 +88,14 @@ const convertMp3ToWav = async (id) => {
       .save(outputPath);
   });
 };
+
+const lipSyncMessage = async (id) => {
+  const time = new Date().getTime();
+  console.log(`Starting conversion for message ${id}`);
+  await convertMp3ToWav(id);
+  console.log(`Conversion done in ${new Date().getTime() - time}ms`);
+  await execCommand(
+    `${rhubarbPath} -f json -o audios/message_${id}.json audios/message_${id}.wav -r phonetic`
+  );
+  console.log(`Lip sync done in ${new Date().getTime() - time}ms`);
+};
