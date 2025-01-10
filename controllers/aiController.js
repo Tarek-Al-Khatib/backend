@@ -59,3 +59,32 @@ const readJsonTranscript = async (file) => {
   const data = await fs.readFile(file, "utf8");
   return JSON.parse(data);
 };
+
+const audioFileToBase64 = async (file) => {
+  const data = await fs.readFile(file);
+  return data.toString("base64");
+};
+
+ffmpeg.setFfmpegPath(ffmpegStatic);
+
+const convertMp3ToWav = async (id) => {
+  return new Promise((resolve, reject) => {
+    const inputPath = `audios/message_${id}.mp3`;
+    const outputPath = `audios/message_${id}.wav`;
+
+    ffmpeg(inputPath)
+      .toFormat("wav")
+      .on("start", (commandLine) => {
+        console.log("FFmpeg command:", commandLine);
+      })
+      .on("end", () => {
+        console.log("Conversion finished successfully.");
+        resolve(outputPath);
+      })
+      .on("error", (err) => {
+        console.error("Error during conversion:", err);
+        reject(err);
+      })
+      .save(outputPath);
+  });
+};
