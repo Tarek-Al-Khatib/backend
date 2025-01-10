@@ -45,3 +45,17 @@ const textToSpeech = async (text, outputFilePath) => {
     throw error;
   }
 };
+
+const execCommand = (command) => {
+  return new Promise((resolve, reject) => {
+    exec(command, (error, stdout, stderr) => {
+      if (error) reject(error);
+      resolve(stdout);
+    });
+  });
+};
+
+const readJsonTranscript = async (file) => {
+  const data = await fs.readFile(file, "utf8");
+  return JSON.parse(data);
+};
