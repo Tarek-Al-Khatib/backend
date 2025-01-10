@@ -1,7 +1,14 @@
+import { exec } from "child_process";
 import fetch from "node-fetch";
 import path from "node:path";
+import { promises as fs } from "fs";
 import * as fss from "node:fs";
 import OpenAI from "openai";
+import ffmpeg from "fluent-ffmpeg";
+import ffmpegStatic from "ffmpeg-static";
+const rhubarbPath = path.resolve(
+  "X:/SEFactory/Workplace/Tech/work-wise/backend/bin/rhubarb.exe"
+);
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || "-",
