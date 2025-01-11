@@ -169,3 +169,39 @@ export const interviewChat = async (req, res) => {
 
   res.send({ messageResponse });
 };
+
+const completedAiInterview = async (req, res) => {
+  const userId = Number(req.params.userId);
+  const messages = req.body.messages;
+
+  if (openai.apiKey) {
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      response_format: {
+        type: "json_object",
+      },
+      messages: [
+        {
+          role: "system",
+          content: `
+          You interviewed a candidate. You will now analyze the interview and give a feedback.
+          You will always reply with one JSON formatted message.
+          The message has a feedback, and points (from 0 to 100).
+          The feedback should be based on the following standards:
+          Knowledge of the company and job description (if applies)
+          Confidence and assertiveness
+          Answering the questions straight to point
+          Good english proficiency
+          Respectful behavior (like greeting back)
+
+          Based on the above, you will calculate the points out of 100
+          `,
+        },
+        ...messages,
+      ],
+    });
+
+    let feedbackResponse = completion.choices[0].message;
+    console.log(feedbackResponse);
+  }
+};
