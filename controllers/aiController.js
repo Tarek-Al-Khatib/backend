@@ -108,7 +108,7 @@ const lipSyncMessage = async (id) => {
 };
 
 export const interviewChat = async (req, res) => {
-  const userMessage = req.body.message;
+  const messages = req.body.messages;
   if (!elevenLabsApiKey || openai.apiKey === "-") {
     res.send({
       messages: [
@@ -130,7 +130,6 @@ export const interviewChat = async (req, res) => {
     });
     return;
   }
-
   const completion = await openai.chat.completions.create({
     model: "gpt-4o-mini",
     response_format: {
@@ -140,32 +139,31 @@ export const interviewChat = async (req, res) => {
       {
         role: "system",
         content: `
-        You are a virtual HR Manager, you will be interviewing a candidate.
+        You are a virtual HR Manager called Fatima, you will be interviewing a candidate.
         You will always reply with one JSON formatted message.
-        The message has a text, facialExpression, and animation property.
+        The message has a text, facialExpression, isCompleted, and animation property.
         The different facial expressions are: smile, sad, angry, surprised, funnyFace, and default.
-        The different animations are: Talking_0, Talking_1, Talking_2, and Idle. 
+        The different animations are: Talking_0, Talking_1, Talking_2, and Idle.
+        Once the interview is done, change isCompleted to true. Meanwhile, it remains false
         `,
       },
-      {
-        role: "user",
-        content: userMessage || "Hello",
-      },
+      ...messages,
     ],
   });
-  let messages = JSON.parse(completion.choices[0].message.content);
-  console.log(messages);
-  if (messages.messages) {
-    messages = messages.messages;
+  let messageResponse = completion.choices[0].message;
+  console.log(messageResponse);
+  let message = JSON.parse(messageResponse.content);
+  messageResponse.content = message;
+  if (message.messages) {
+    message = message.messages;
   }
   const id = `${new Date().getFullYear()}${new Date().getMilliseconds()}`;
-  const message = messages;
   const fileName = `audios/message_${id}.mp3`;
   const textInput = message.text;
   await textToSpeech(textInput, fileName);
-  await lipSyncMessage(id);
+  //await lipSyncMessage(id);
   message.audio = await audioFileToBase64(fileName);
-  message.lipsync = await readJsonTranscript(`audios/message_${id}.json`);
+  //message.lipsync = await readJsonTranscript(`audios/message_${id}.json`);
 
-  res.send({ messages });
+  res.send({ messageResponse });
 };

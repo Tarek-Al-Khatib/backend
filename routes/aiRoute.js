@@ -4,5 +4,5 @@ import { interviewChat } from "../controllers/aiController.js";
 
 const router = express.Router();
 
-router.get("/interview", authMiddleware, interviewChat);
+router.post("/interview", authMiddleware, interviewChat);
 export default router;
