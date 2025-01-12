@@ -96,18 +96,17 @@ model LearningPlans {
 model Interviews {
   id           Int            @id @default(autoincrement())
   type         TypeInterviews
-  score        Float          @default(0)
   feedback     String?        @db.VarChar(500)
   date         DateTime
   status       Status         @default(PENDING)
   created_at   DateTime       @default(now())
   points       Int            @default(0)
   user_id      Int
-  moderator_id Int
+  moderator_id Int?
   completed_at DateTime?
 
   user      Users @relation(name: "InterviewedUser", fields: [user_id], references: [id])
-  moderator Users @relation(name: "InterviewModerator", fields: [moderator_id], references: [id])
+  moderator Users? @relation(name: "InterviewModerator", fields: [moderator_id], references: [id])
 }
 
 enum TypeInterviews {
