@@ -126,3 +126,12 @@ export const getUserCommunities = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const getTopCommunities = async (req, res) => {
+  try {
+    const communities = await communityRepository.getTopCommunities(req);
+    res.status(200).json(communities);
+  } catch (error) {
+    console.log(error);
+  }
+};
