@@ -69,8 +69,8 @@ enum TypeNotifications {
 
 model LearningSteps {
   id               Int      @id @default(autoincrement())
-  step_title       String   @db.VarChar(45)
-  step_description String   @db.VarChar(300)
+  step_title       String   @db.VarChar(200)
+  step_description String   @db.VarChar(500)
   is_completed     Boolean  @default(false)
   created_at       DateTime @default(now())
   completed_at     DateTime?
@@ -82,8 +82,8 @@ model LearningSteps {
 
 model LearningPlans {
   id           Int      @id @default(autoincrement())
-  title        String   @db.VarChar(45)
-  description  String   @db.VarChar(300)
+  title        String   @db.VarChar(200)
+  description  String   @db.VarChar(500)
   is_completed Boolean  @default(false)
   created_at   DateTime @default(now())
   points       Int      @default(0)
