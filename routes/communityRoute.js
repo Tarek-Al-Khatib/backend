@@ -29,6 +29,6 @@ router.get("/:communityId/channels", authMiddleware, getChannels);
 router.get("/:channelId/chats", authMiddleware, getChats);
 router.get("/:communityId/members", authMiddleware, getMembers);
 router.get("/:userId/communities", authMiddleware, getUserCommunities);
-router.get("/top", getTopCommunities);
+router.get("/top", authMiddleware, getTopCommunities);
 
 export default router;

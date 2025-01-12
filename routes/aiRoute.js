@@ -11,6 +11,6 @@ const router = express.Router();
 
 router.post("/interview", authMiddleware, interviewChat);
 router.post("/completed", authMiddleware, completedAiInterview);
-router.post("/enhance", enhancePlan);
-router.post("/top-plans", topLearningPicks);
+router.post("/enhance", authMiddleware, enhancePlan);
+router.post("/top-plans", authMiddleware, topLearningPicks);
 export default router;
