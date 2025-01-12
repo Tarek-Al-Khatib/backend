@@ -4,6 +4,7 @@ import {
   completedAiInterview,
   enhancePlan,
   interviewChat,
+  topLearningPicks,
 } from "../controllers/aiController.js";
 
 const router = express.Router();
@@ -11,4 +12,5 @@ const router = express.Router();
 router.post("/interview", authMiddleware, interviewChat);
 router.post("/completed", authMiddleware, completedAiInterview);
 router.post("/enhance", enhancePlan);
+router.post("/top-plans", topLearningPicks);
 export default router;
