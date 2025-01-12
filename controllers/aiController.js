@@ -287,7 +287,8 @@ export const topLearningPicks = async (req, res) => {
             content: `
             You are a learning plan creator. You have multiple industries (Coding, Business etc...)
             You will always reply with one JSON formatted message.
-            The message contains the 3 plans (array of objects) where each one has title (max 100 char), description (max 300 char), and array of steps.
+            The message contains the 3 plans (array of objects) where each one has title (max 100 char), description (max 300 char), 
+            category (one word), and array of steps.
             The steps are an array of objects which has step_title (max 50 char), and step_description (max 300 char) properties for each object
             Each learning plan is almost 7-15 steps.
             `,
