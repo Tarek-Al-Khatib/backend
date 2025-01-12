@@ -7,6 +7,7 @@ import {
   createChannel,
   joinCommunity,
   getUserCommunities,
+  getTopCommunities,
 } from "../controllers/communityController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 import upload from "../middlewares/multerMiddleware.js";
@@ -28,5 +29,6 @@ router.get("/:communityId/channels", authMiddleware, getChannels);
 router.get("/:channelId/chats", authMiddleware, getChats);
 router.get("/:communityId/members", authMiddleware, getMembers);
 router.get("/:userId/communities", authMiddleware, getUserCommunities);
+router.get("/top", getTopCommunities);
 
 export default router;

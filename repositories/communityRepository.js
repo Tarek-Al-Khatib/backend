@@ -149,4 +149,34 @@ export const communityRepository = {
       throw new Error(`Channel with ID ${channelId} does not exist.`);
     }
   },
+
+  async getTopCommunities(req) {
+    try {
+      const url = fullUrl(req);
+      const topCommunities = await CommunityModel.findMany({
+        take: 6,
+        orderBy: {
+          members: {
+            _count: "desc",
+          },
+        },
+        include: {
+          members: true,
+        },
+      });
+      return topCommunities.map((community) => {
+        if (community.community_logo) {
+          community.community_logo = `${url}${community.community_logo}`;
+        }
+        if (community.community_banner) {
+          community.community_banner = `${url}${community.community_banner}`;
+        }
+
+        return community;
+      });
+    } catch (error) {
+      console.error("Error in getUserCommunities:", error);
+      throw new Error("Failed to fetch user communities.");
+    }
+  },
 };
