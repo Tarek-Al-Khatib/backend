@@ -46,7 +46,9 @@ export const interviewRepository = {
         ...interviewData,
       },
     });
-
+    if (interviewData.points && interviewData.points != 0) {
+      await incrementUserPoints(interviewData.user_id, interviewData.points);
+    }
     return newInterview;
   },
 

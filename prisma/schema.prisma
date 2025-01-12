@@ -96,7 +96,7 @@ model LearningPlans {
 model Interviews {
   id           Int            @id @default(autoincrement())
   type         TypeInterviews
-  feedback     String?        @db.VarChar(500)
+  feedback     String?        @db.VarChar(700)
   date         DateTime
   status       Status         @default(PENDING)
   created_at   DateTime       @default(now())

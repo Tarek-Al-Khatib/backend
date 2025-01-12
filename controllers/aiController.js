@@ -6,6 +6,7 @@ import * as fss from "node:fs";
 import OpenAI from "openai";
 import ffmpeg from "fluent-ffmpeg";
 import ffmpegStatic from "ffmpeg-static";
+import { interviewRepository } from "../repositories/interviewRepository.js";
 const rhubarbPath = path.resolve(
   "X:/SEFactory/Workplace/Tech/work-wise/backend/bin/rhubarb.exe"
 );
@@ -170,7 +171,7 @@ export const interviewChat = async (req, res) => {
   res.send({ messageResponse });
 };
 
-const completedAiInterview = async (req, res) => {
+export const completedAiInterview = async (req, res) => {
   const userId = Number(req.params.userId);
   const messages = req.body.messages;
 
@@ -187,7 +188,7 @@ const completedAiInterview = async (req, res) => {
           You interviewed a candidate. You will now analyze the interview and give a feedback.
           You will always reply with one JSON formatted message.
           The message has a feedback, and points (from 0 to 100).
-          The feedback should be based on the following standards:
+          The feedback should be a text describing the following standards based on ther candidate:
           Knowledge of the company and job description (if applies)
           Confidence and assertiveness
           Answering the questions straight to point
@@ -202,6 +203,44 @@ const completedAiInterview = async (req, res) => {
     });
 
     let feedbackResponse = completion.choices[0].message;
-    console.log(feedbackResponse);
+    let interviewFeedback = JSON.parse(feedbackResponse.content);
+
+    // model Interviews {
+    //   id           Int            @id @default(autoincrement())
+    //   type         TypeInterviews
+    //   feedback     String?        @db.VarChar(500)
+    //   date         DateTime
+    //   status       Status         @default(PENDING)
+    //   created_at   DateTime       @default(now())
+    //   points       Int            @default(0)
+    //   user_id      Int
+    //   moderator_id Int
+    //   completed_at DateTime?s
+
+    //   user      Users @relation(name: "InterviewedUser", fields: [user_id], references: [id])
+    //   moderator Users @relation(name: "InterviewModerator", fields: [moderator_id], references: [id])
+    // }
+    // enum TypeInterviews {
+    //   MODERATOR
+    //   AI
+    // }
+
+    // enum Status {
+    //   PENDING
+    //   ACCEPTED
+    //   REJECTED
+    // }
+    const interview = await interviewRepository.createInterview({
+      type: "AI",
+      feedback: interviewFeedback.feedback,
+      date: new Date(),
+      status: "ACCEPTED",
+      points: interviewFeedback.points,
+      user_id: userId,
+      completed_at: new Date(),
+    });
+    res
+      .status(200)
+      .json({ message: interviewFeedback, interviewCreated: interview });
   }
 };
