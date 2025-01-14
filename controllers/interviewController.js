@@ -58,12 +58,14 @@ export const createInterview = async (req, res) => {
 export const updateInterview = async (req, res) => {
   const interviewId = Number(req.params.interviewId);
   const userId = Number(req.params.userId);
+  console.log(req.body);
   const data = req.body;
 
   try {
     const updatedInterview = await interviewRepository.updateInterview(
       interviewId,
-      data
+      data,
+      userId
     );
 
     return res.status(200).json({

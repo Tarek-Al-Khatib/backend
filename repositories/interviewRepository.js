@@ -65,7 +65,7 @@ export const interviewRepository = {
       },
     });
 
-    await incrementUserPoints(userId, data.points);
+    await incrementUserPoints(userId, 70);
 
     return updatedInterview;
   },
