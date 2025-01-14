@@ -60,8 +60,8 @@ export const interviewRepository = {
       },
       data: {
         feedback: data.feedback,
-        status: data.status,
-        points: data.points,
+        points: 70,
+        completed_at: new Date(),
       },
     });
 
