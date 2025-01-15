@@ -105,15 +105,16 @@ export const joinCommunity = async (req, res) => {
       communityId
     );
 
-    if (joined !== null) {
+    if (joined === null) {
       const communityMember = await communityRepository.joinCommunity(
         userId,
         communityId,
         role
       );
       res.status(200).json(communityMember);
+    } else {
+      res.status(200).json({ message: "Already in community" });
     }
-    res.status(200).json({ message: "Already in community" });
   } catch (error) {
     console.error("Error in joinCommunity:", error);
     res.status(500).json({ error: error.message });
@@ -136,8 +137,12 @@ export const getUserCommunities = async (req, res) => {
 };
 
 export const getTopCommunities = async (req, res) => {
+  const userId = Number(req.params.userId);
   try {
-    const communities = await communityRepository.getTopCommunities(req);
+    const communities = await communityRepository.getTopCommunities(
+      req,
+      userId
+    );
     res.status(200).json(communities);
   } catch (error) {
     console.log(error);

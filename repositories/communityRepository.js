@@ -150,10 +150,17 @@ export const communityRepository = {
     }
   },
 
-  async getTopCommunities(req) {
+  async getTopCommunities(req, userId) {
     try {
       const url = fullUrl(req);
       const topCommunities = await CommunityModel.findMany({
+        where: {
+          members: {
+            none: {
+              user_id: userId,
+            },
+          },
+        },
         take: 6,
         orderBy: {
           members: {
@@ -185,7 +192,7 @@ export const communityRepository = {
       const joined = await CommunityMemberModel.findFirst({
         where: {
           user_id: userId,
-          community_id: 19,
+          community_id: communityId,
         },
       });
 
