@@ -179,4 +179,19 @@ export const communityRepository = {
       throw new Error("Failed to fetch user communities.");
     }
   },
+
+  async isUserInCommunity(userId, communityId) {
+    try {
+      const joined = await CommunityMemberModel.findFirst({
+        where: {
+          user_id: userId,
+          community_id: 19,
+        },
+      });
+
+      return joined;
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };

@@ -100,12 +100,20 @@ export const joinCommunity = async (req, res) => {
   try {
     await communityRepository.communityExists(communityId);
 
-    const communityMember = await communityRepository.joinCommunity(
+    const joined = await communityRepository.isUserInCommunity(
       userId,
-      communityId,
-      role
+      communityId
     );
-    res.status(200).json(communityMember);
+
+    if (joined !== null) {
+      const communityMember = await communityRepository.joinCommunity(
+        userId,
+        communityId,
+        role
+      );
+      res.status(200).json(communityMember);
+    }
+    res.status(200).json({ message: "Already in community" });
   } catch (error) {
     console.error("Error in joinCommunity:", error);
     res.status(500).json({ error: error.message });
