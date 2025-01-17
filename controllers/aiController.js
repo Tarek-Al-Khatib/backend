@@ -9,12 +9,11 @@ const openai = new OpenAI({
 });
 
 const elevenLabsApiKey = process.env.ELEVEN_LABS_API_KEY;
-const voiceID = "jsCqWAovK2LkecY7zXl4";
 
-const textToSpeech = async (text, outputFilePath) => {
+const textToSpeech = async (text, outputFilePath, voiceId) => {
   try {
     const response = await fetch(
-      `https://api.elevenlabs.io/v1/text-to-speech/${voiceID}`,
+      `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,
       {
         method: "POST",
         headers: {
@@ -54,6 +53,9 @@ const audioFileToBase64 = async (file) => {
 
 export const interviewChat = async (req, res) => {
   const messages = req.body.messages;
+  const speciality = req.body.speciality;
+  const characteristics = req.body.characteristics;
+  const voiceId = req.body.voiceId;
   const completion = await openai.chat.completions.create({
     model: "gpt-4o-mini",
     response_format: {
@@ -63,8 +65,9 @@ export const interviewChat = async (req, res) => {
       {
         role: "system",
         content: `
-        You are a virtual HR Manager called Fatima, you will be interviewing a candidate. 
-        You are just and interviewer, nothing more. You are not a technical interviewer. Restrict your answers to that.
+        You are a virtual HR Manager called Fatima, you will be interviewing a candidate.
+        Your personality is: ${characteristics}
+        You are just and interviewer for the job role ${speciality}
         You will always reply with one JSON formatted message.
         The message has a text, facialExpression, isCompleted, isCancelled, and animation property.
         The different facial expressions are: smile, sad, angry, surprised, funnyFace, and default.
@@ -86,7 +89,7 @@ export const interviewChat = async (req, res) => {
   const id = `${new Date().getFullYear()}${new Date().getMilliseconds()}`;
   const fileName = `audios/message_${id}.mp3`;
   const textInput = message.text;
-  await textToSpeech(textInput, fileName);
+  await textToSpeech(textInput, fileName, voiceId);
   message.audio = await audioFileToBase64(fileName);
 
   res.send({ messageResponse });
