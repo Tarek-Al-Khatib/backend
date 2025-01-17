@@ -1,15 +1,8 @@
-import { exec } from "child_process";
 import fetch from "node-fetch";
-import path from "node:path";
 import { promises as fs } from "fs";
 import * as fss from "node:fs";
 import OpenAI from "openai";
-import ffmpeg from "fluent-ffmpeg";
-import ffmpegStatic from "ffmpeg-static";
 import { interviewRepository } from "../repositories/interviewRepository.js";
-const rhubarbPath = path.resolve(
-  "X:/SEFactory/Workplace/Tech/work-wise/backend/bin/rhubarb.exe"
-);
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || "-",
@@ -54,83 +47,13 @@ const textToSpeech = async (text, outputFilePath) => {
   }
 };
 
-const execCommand = (command) => {
-  return new Promise((resolve, reject) => {
-    exec(command, (error, stdout, stderr) => {
-      if (error) reject(error);
-      resolve(stdout);
-    });
-  });
-};
-
-const readJsonTranscript = async (file) => {
-  const data = await fs.readFile(file, "utf8");
-  return JSON.parse(data);
-};
-
 const audioFileToBase64 = async (file) => {
   const data = await fs.readFile(file);
   return data.toString("base64");
 };
 
-ffmpeg.setFfmpegPath(ffmpegStatic);
-
-const convertMp3ToWav = async (id) => {
-  return new Promise((resolve, reject) => {
-    const inputPath = `audios/message_${id}.mp3`;
-    const outputPath = `audios/message_${id}.wav`;
-
-    ffmpeg(inputPath)
-      .toFormat("wav")
-      .on("start", (commandLine) => {
-        console.log("FFmpeg command:", commandLine);
-      })
-      .on("end", () => {
-        console.log("Conversion finished successfully.");
-        resolve(outputPath);
-      })
-      .on("error", (err) => {
-        console.error("Error during conversion:", err);
-        reject(err);
-      })
-      .save(outputPath);
-  });
-};
-
-const lipSyncMessage = async (id) => {
-  const time = new Date().getTime();
-  console.log(`Starting conversion for message ${id}`);
-  await convertMp3ToWav(id);
-  console.log(`Conversion done in ${new Date().getTime() - time}ms`);
-  await execCommand(
-    `${rhubarbPath} -f json -o audios/message_${id}.json audios/message_${id}.wav -r phonetic`
-  );
-  console.log(`Lip sync done in ${new Date().getTime() - time}ms`);
-};
-
 export const interviewChat = async (req, res) => {
   const messages = req.body.messages;
-  if (!elevenLabsApiKey || openai.apiKey === "-") {
-    res.send({
-      messages: [
-        {
-          text: "Please my dear, don't forget to add your API keys!",
-          audio: await audioFileToBase64("audios/api_0.wav"),
-          lipsync: await readJsonTranscript("audios/api_0.json"),
-          facialExpression: "angry",
-          animation: "Angry",
-        },
-        {
-          text: "You don't want to ruin Wawa Sensei with a crazy ChatGPT and ElevenLabs bill, right?",
-          audio: await audioFileToBase64("audios/api_1.wav"),
-          lipsync: await readJsonTranscript("audios/api_1.json"),
-          facialExpression: "smile",
-          animation: "Laughing",
-        },
-      ],
-    });
-    return;
-  }
   const completion = await openai.chat.completions.create({
     model: "gpt-4o-mini",
     response_format: {
@@ -164,9 +87,7 @@ export const interviewChat = async (req, res) => {
   const fileName = `audios/message_${id}.mp3`;
   const textInput = message.text;
   await textToSpeech(textInput, fileName);
-  //await lipSyncMessage(id);
   message.audio = await audioFileToBase64(fileName);
-  //message.lipsync = await readJsonTranscript(`audios/message_${id}.json`);
 
   res.send({ messageResponse });
 };
