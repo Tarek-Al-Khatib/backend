@@ -20,7 +20,9 @@ export const interviewRepository = {
     const interviews = await InterviewModel.findMany({
       where: {
         user_id: userId,
-        date: { lte: new Date() },
+        completed_at: {
+          not: null,
+        },
       },
       include: {
         moderator: true,
@@ -41,6 +43,10 @@ export const interviewRepository = {
   },
 
   async createInterview(interviewData) {
+    if (!interviewData.feedback) {
+      interviewData.feedback =
+        "The AI malfunctioned and did not provide a feedback, please do the interview again";
+    }
     const newInterview = await InterviewModel.create({
       data: {
         ...interviewData,
