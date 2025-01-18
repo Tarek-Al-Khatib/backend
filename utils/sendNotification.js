@@ -1,7 +1,7 @@
 import { io } from "../index.js";
 import { notificationRepository } from "../repositories/notificationsRepository.js";
 
-export const sendnotification = async (user_id, type, message) => {
+export const sendNotification = async (user_id, type, message) => {
   try {
     const notification = await notificationRepository.createNotification({
       message,

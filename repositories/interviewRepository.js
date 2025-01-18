@@ -69,6 +69,10 @@ export const interviewRepository = {
         points: 70,
         completed_at: new Date(),
       },
+      include: {
+        moderator: true,
+        user: true,
+      },
     });
 
     await incrementUserPoints(userId, 70);
@@ -85,8 +89,11 @@ export const interviewRepository = {
       data: {
         status: status,
       },
+      include: {
+        moderator: true,
+        user: true,
+      },
     });
-
     return updatedInterview;
   },
 

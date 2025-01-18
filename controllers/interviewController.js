@@ -1,5 +1,5 @@
 import { interviewRepository } from "../repositories/interviewRepository.js";
-
+import { sendNotification } from "../utils/sendNotification.js";
 export const getUserInterviews = async (req, res) => {
   const userId = Number(req.params.userId);
 
@@ -90,6 +90,14 @@ export const updateStatus = async (req, res) => {
       interviewId,
       status,
       userId
+    );
+
+    sendNotification(
+      updatedInterview.user.id,
+      "INFO",
+      `Interview ${status.toLowerCase()} by ${
+        updatedInterview.moderator.username
+      }`
     );
 
     return res.status(200).json({

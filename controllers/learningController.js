@@ -1,5 +1,5 @@
 import { learningRepository } from "../repositories/learningRepository.js";
-import { sendnotification } from "../utils/sendNotification.js";
+import { sendNotification } from "../utils/sendNotification.js";
 
 export const getPlans = async (req, res) => {
   const userId = Number(req.params.userId);
@@ -69,7 +69,7 @@ export const markPlanAsDone = async (req, res) => {
   const userId = Number(req.params.userId);
   try {
     const markedPlan = await learningRepository.markAsDone(planId, userId);
-    sendnotification(
+    sendNotification(
       userId,
       "INFO",
       `Plan completed at ${new Date().toLocaleString("en-US", {
@@ -96,7 +96,7 @@ export const markStepAsDone = async (req, res) => {
 
   try {
     const markedStep = await learningRepository.markStepAsDone(stepId, userId);
-    sendnotification(
+    sendNotification(
       userId,
       "INFO",
       `Step completed at ${new Date().toLocaleString("en-US", {
