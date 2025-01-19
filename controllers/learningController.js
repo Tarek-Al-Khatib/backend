@@ -1,4 +1,5 @@
 import { learningRepository } from "../repositories/learningRepository.js";
+import { checkAndAssignAchievements } from "../utils/checkAchievements.js";
 import { sendNotification } from "../utils/sendNotification.js";
 
 export const getPlans = async (req, res) => {

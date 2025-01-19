@@ -49,11 +49,9 @@ export const checkAndAssignAchievements = async (userId) => {
       {
         id: 6,
         condition:
-          user.interviews.length > 5 &&
-          user.interviews.filter((i) => i.feedback !== null).length >= 5,
+          user.interviews.filter((i) => i.completed_at != null).length >= 5,
         badgeTitle: "Attended More Than 5 Interviews",
       },
-
       {
         id: 7,
         condition: user.points >= 100,
@@ -82,6 +80,7 @@ export const checkAndAssignAchievements = async (userId) => {
       },
     ];
 
+    console.log(achievements);
     const badgesToAssign = achievements
       .filter(
         (achievement) =>
@@ -105,7 +104,6 @@ export const checkAndAssignAchievements = async (userId) => {
 
     return {
       message: `${badgesToAssign.length} new badges earned`,
-      badges: badgesToAssign.map((b) => b.title),
     };
   } catch (error) {
     console.error("Error assigning achievements:", error);

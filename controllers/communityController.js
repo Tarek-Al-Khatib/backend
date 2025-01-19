@@ -1,4 +1,5 @@
 import { communityRepository } from "../repositories/communityRepository.js";
+import { checkAndAssignAchievements } from "../utils/checkAchievements.js";
 
 export const getChannels = async (req, res) => {
   const communityId = Number(req.params.communityId);

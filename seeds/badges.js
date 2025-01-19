@@ -34,32 +34,32 @@ const badges = [
   {
     title: "First Milestone",
     description: "Reached 100 points",
-    icon: "/uploads/7.png",
+    icon: "/uploads/10.png",
   },
   {
     title: "Career champion",
     description: "Reached 300 points",
-    icon: "/uploads/8.png",
+    icon: "/uploads/11.png",
   },
   {
     title: "Career legend",
     description: "Reached 1000 points",
-    icon: "/uploads/9.png",
+    icon: "/uploads/12.png",
   },
   {
     title: "Next Leveler",
     description: "Completed more than 3 learning plans",
-    icon: "/uploads/10.png",
+    icon: "/uploads/7.png",
   },
   {
     title: "Hello World",
     description: "Used AI in interviews for the first time",
-    icon: "/uploads/11.png",
+    icon: "/uploads/8.png",
   },
   {
     title: "AI Architect",
     description: "Used AI in learning for the first time",
-    icon: "/uploads/12.png",
+    icon: "/uploads/9.png",
   },
 ];
 

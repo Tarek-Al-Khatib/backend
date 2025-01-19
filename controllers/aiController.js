@@ -3,6 +3,7 @@ import { promises as fs } from "fs";
 import * as fss from "node:fs";
 import OpenAI from "openai";
 import { interviewRepository } from "../repositories/interviewRepository.js";
+import { checkAndAssignAchievements } from "../utils/checkAchievements.js";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || "-",

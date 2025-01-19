@@ -1,4 +1,5 @@
 import { interviewRepository } from "../repositories/interviewRepository.js";
+import { checkAndAssignAchievements } from "../utils/checkAchievements.js";
 import { scheduleInterviewReminders } from "../utils/scheduleReminders.js";
 import { sendNotification } from "../utils/sendNotification.js";
 export const getUserInterviews = async (req, res) => {
