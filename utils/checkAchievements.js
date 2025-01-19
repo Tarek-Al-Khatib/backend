@@ -1,5 +1,6 @@
 import prisma from "../database/database.js";
 import { BadgeModel, UserBadgeModel, UserModel } from "../models/main.js";
+import { sendNotification } from "./sendNotification.js";
 
 export const checkAndAssignAchievements = async (userId) => {
   try {
@@ -99,6 +100,11 @@ export const checkAndAssignAchievements = async (userId) => {
             badges_id: badge.id,
           },
         });
+        sendNotification(
+          userId,
+          "INFO",
+          `You've earned a badge: ${badge.title}`
+        );
       }
     }
 

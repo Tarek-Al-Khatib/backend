@@ -1,5 +1,6 @@
-import { UserModel } from "../models/main.js";
+import { UserBadgeModel, UserModel } from "../models/main.js";
 import { fullUrl } from "../utils/getFullURL.js";
+import { sendNotification } from "../utils/sendNotification.js";
 
 export const personalUserRepository = {
   async getLeaderboardByPoints(userId) {
@@ -114,6 +115,11 @@ export const personalUserRepository = {
           badges_id: 12,
         },
       });
+      sendNotification(
+        userId,
+        "INFO",
+        "You've earned a badge: Used AI in learning plans"
+      );
     }
   },
 };
