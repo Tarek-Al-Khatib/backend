@@ -4,6 +4,7 @@ import * as fss from "node:fs";
 import OpenAI from "openai";
 import { interviewRepository } from "../repositories/interviewRepository.js";
 import { checkAndAssignAchievements } from "../utils/checkAchievements.js";
+import { personalUserRepository } from "../repositories/personalUserRepository.js";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || "-",
@@ -147,6 +148,7 @@ export const completedAiInterview = async (req, res) => {
 
 export const enhancePlan = async (req, res) => {
   const learningPlan = req.body.plan;
+  const userId = Number(req.params.userId);
   try {
     if (openai.apiKey) {
       const completion = await openai.chat.completions.create({
@@ -192,6 +194,7 @@ export const enhancePlan = async (req, res) => {
 
       let enhacementResponse = completion.choices[0].message;
       let enhancedPlan = JSON.parse(enhacementResponse.content);
+      await personalUserRepository.addAiLearningBadge(userId);
       res.status(200).json({ plan: enhancedPlan });
     }
   } catch (error) {
