@@ -52,7 +52,7 @@ model UserBadges {
 
 model Notifications {
   id         Int               @id @default(autoincrement())
-  message    String            @db.VarChar(45)
+  message    String            @db.VarChar(200)
   is_read    Boolean           @default(false)
   created_at DateTime          @default(now())
   type       TypeNotifications @default(INFO)
