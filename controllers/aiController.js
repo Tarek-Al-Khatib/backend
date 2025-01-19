@@ -137,6 +137,7 @@ export const completedAiInterview = async (req, res) => {
       user_id: userId,
       completed_at: new Date(),
     });
+    await checkAndAssignAchievements(userId);
     res
       .status(200)
       .json({ message: interviewFeedback, interviewCreated: interview });

@@ -19,7 +19,7 @@ export const addPlan = async (req, res) => {
 
   try {
     const newPlan = await learningRepository.addPlan(planData, userId, steps);
-    sendnotification(
+    sendNotification(
       userId,
       "INFO",
       `Plan ${planData.title} Added at ${new Date().toLocaleString("en-US", {
@@ -28,6 +28,7 @@ export const addPlan = async (req, res) => {
         day: "numeric",
       })}`
     );
+    await checkAndAssignAchievements(userId);
     res.status(200).json({
       message: "Learning plan added successfully.",
       plan: newPlan,
@@ -78,6 +79,7 @@ export const markPlanAsDone = async (req, res) => {
         day: "numeric",
       })}`
     );
+    await checkAndAssignAchievements(userId);
     res.status(200).json({
       message: "Plan marked as done successfully.",
       plan: markedPlan,
@@ -105,6 +107,7 @@ export const markStepAsDone = async (req, res) => {
         day: "numeric",
       })}`
     );
+    await checkAndAssignAchievements(userId);
     res.status(200).json({
       message: "Step marked as done successfully.",
       step: markedStep,

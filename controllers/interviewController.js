@@ -48,6 +48,7 @@ export const createInterview = async (req, res) => {
       message: "Interview created successfully",
       data: newInterview,
     });
+    await checkAndAssignAchievements(userId);
   } catch (error) {
     console.error("Error creating interview:", error);
     return res.status(500).json({
@@ -69,6 +70,7 @@ export const updateInterview = async (req, res) => {
       userId
     );
 
+    await checkAndAssignAchievements(userId);
     return res.status(200).json({
       message: "Interview updated successfully",
       data: updatedInterview,
@@ -104,6 +106,7 @@ export const updateStatus = async (req, res) => {
     if (updatedInterview.status === "ACCEPTED") {
       scheduleInterviewReminders(updatedInterview);
     }
+    await checkAndAssignAchievements(userId);
     return res.status(200).json({
       message: "Interview status updated successfully",
       data: updatedInterview,
@@ -124,6 +127,7 @@ export const completedInterview = async (req, res) => {
       interviewId
     );
 
+    await checkAndAssignAchievements(userId);
     return res.status(200).json({
       message: "Interview completed successfully",
       data: updatedInterview,

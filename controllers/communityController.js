@@ -62,6 +62,7 @@ export const createCommunity = async (req, res) => {
       newCommunityData,
       req
     );
+    await checkAndAssignAchievements(userId);
     res.status(200).json(community);
   } catch (error) {
     console.error("Error in createCommunity:", error);
@@ -111,6 +112,7 @@ export const joinCommunity = async (req, res) => {
         communityId,
         role
       );
+      await checkAndAssignAchievements(userId);
       res.status(200).json(communityMember);
     } else {
       res.status(200).json({ message: "Already in community" });
