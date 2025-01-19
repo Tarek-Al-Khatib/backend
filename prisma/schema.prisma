@@ -1,0 +1,178 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id          Int      @id @default(autoincrement())
+  username    String   @db.VarChar(45)
+  email       String   @db.VarChar(45)
+  password    String   @db.VarChar(100)
+  level       Int      @default(1)
+  profile_pic String?  @db.VarChar(250)
+  description String?  @db.VarChar(300)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  points      Int      @default(0)
+
+  user_badges          UserBadges[]
+  learning_plans       LearningPlans[]
+  notifications        Notifications[]
+  community_members    CommunityMembers[]
+  interviews           Interviews[]        @relation(name: "InterviewedUser")
+  moderated_interviews Interviews[]        @relation(name: "InterviewModerator")
+  Chats                Chats[]
+  CommunityChannels    CommunityChannels[]
+  Communities          Communities[]
+}
+
+model Badges {
+  id          Int    @id @default(autoincrement())
+  title       String @db.VarChar(45)
+  description String @db.VarChar(200)
+  icon        String @db.VarChar(300)
+
+  user_badges UserBadges[]
+}
+
+model UserBadges {
+  badges_id Int
+  user_id   Int
+  earned_at DateTime @default(now())
+
+  user  Users  @relation(fields: [user_id], references: [id])
+  badge Badges @relation(fields: [badges_id], references: [id])
+
+  @@id([badges_id, user_id])
+}
+
+model Notifications {
+  id         Int               @id @default(autoincrement())
+  message    String            @db.VarChar(200)
+  is_read    Boolean           @default(false)
+  created_at DateTime          @default(now())
+  type       TypeNotifications @default(INFO)
+  user_id    Int
+
+  user Users @relation(fields: [user_id], references: [id])
+}
+
+enum TypeNotifications {
+  INFO
+  REMINDER
+  ALERT
+}
+
+model LearningSteps {
+  id               Int      @id @default(autoincrement())
+  step_title       String   @db.VarChar(200)
+  step_description String   @db.VarChar(500)
+  is_completed     Boolean  @default(false)
+  created_at       DateTime @default(now())
+  completed_at     DateTime?
+  points           Int      @default(0)
+  learning_plan_id Int
+
+  learning_plan LearningPlans @relation(fields: [learning_plan_id], references: [id])
+}
+
+model LearningPlans {
+  id           Int      @id @default(autoincrement())
+  title        String   @db.VarChar(200)
+  description  String   @db.VarChar(500)
+  is_completed Boolean  @default(false)
+  created_at   DateTime @default(now())
+  points       Int      @default(0)
+  user_id      Int
+
+  user  Users           @relation(fields: [user_id], references: [id])
+  steps LearningSteps[]
+}
+
+model Interviews {
+  id           Int            @id @default(autoincrement())
+  type         TypeInterviews
+  feedback     String?        @db.VarChar(700)
+  date         DateTime
+  status       Status         @default(PENDING)
+  created_at   DateTime       @default(now())
+  points       Int            @default(0)
+  user_id      Int
+  moderator_id Int?
+  completed_at DateTime?
+
+  user      Users @relation(name: "InterviewedUser", fields: [user_id], references: [id])
+  moderator Users? @relation(name: "InterviewModerator", fields: [moderator_id], references: [id])
+}
+
+enum TypeInterviews {
+  MODERATOR
+  AI
+}
+
+enum Status {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+model Chats {
+  id         Int      @id @default(autoincrement())
+  message    String   @db.VarChar(1000)
+  sent_at    DateTime @default(now())
+  sender_id  Int
+  channel_id Int
+
+  sender  Users             @relation(fields: [sender_id], references: [id])
+  channel CommunityChannels @relation(fields: [channel_id], references: [id])
+}
+
+model CommunityMembers {
+  user_id      Int
+  community_id Int
+  role         Role
+  joined_at    DateTime @default(now())
+
+  user      Users       @relation(fields: [user_id], references: [id])
+  community Communities @relation(fields: [community_id], references: [id])
+
+  @@id([user_id, community_id])
+}
+
+enum Role {
+  ADMIN
+  MODERATOR
+  PROUSER
+  USER
+}
+
+model CommunityChannels {
+  id           Int      @id @default(autoincrement())
+  name         String   @db.VarChar(45)
+  description  String   @db.VarChar(45)
+  created_at   DateTime @default(now())
+  community_id Int
+  creator_id   Int
+
+  community Communities @relation(fields: [community_id], references: [id])
+  creator   Users       @relation(fields: [creator_id], references: [id])
+  chats     Chats[]
+}
+
+model Communities {
+  id               Int      @id @default(autoincrement())
+  title            String   @db.VarChar(45)
+  description      String   @db.VarChar(45)
+  created_at       DateTime @default(now())
+  community_banner String?  @db.VarChar(300)
+  community_logo   String?  @db.VarChar(300)
+  creator_id       Int
+
+  creator  Users               @relation(fields: [creator_id], references: [id])
+  channels CommunityChannels[]
+  members  CommunityMembers[]
+}
