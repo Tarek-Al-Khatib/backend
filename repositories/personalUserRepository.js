@@ -96,4 +96,24 @@ export const personalUserRepository = {
 
     return user;
   },
+
+  async addAiLearningBadge(userId) {
+    const user = await UserModel.findUnique({
+      where: {
+        id: userId,
+      },
+      include: {
+        user_badges: true,
+      },
+    });
+
+    if (!user.user_badges.some((b) => b.badges_id === 12)) {
+      await UserBadgeModel.create({
+        data: {
+          user_id: userId,
+          badges_id: 12,
+        },
+      });
+    }
+  },
 };
