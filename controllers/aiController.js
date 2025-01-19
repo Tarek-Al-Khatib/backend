@@ -67,7 +67,7 @@ export const interviewChat = async (req, res) => {
       {
         role: "system",
         content: `
-        You are a virtual HR Manager called Fatima, you will be interviewing a candidate.
+        You are a virtual HR Manager, you will be interviewing a candidate.
         Your personality is: ${characteristics}
         You are just and interviewer for the job role ${speciality}
         You will always reply with one JSON formatted message.
