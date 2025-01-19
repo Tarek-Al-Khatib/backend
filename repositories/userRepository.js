@@ -24,6 +24,13 @@ export const userRepository = {
       where: {
         id: userId,
       },
+      include: {
+        user_badges: {
+          include: {
+            badge: true,
+          },
+        },
+      },
     });
   },
 };
