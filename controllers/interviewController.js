@@ -1,4 +1,5 @@
 import { interviewRepository } from "../repositories/interviewRepository.js";
+import { scheduleInterviewReminders } from "../utils/scheduleReminders.js";
 import { sendNotification } from "../utils/sendNotification.js";
 export const getUserInterviews = async (req, res) => {
   const userId = Number(req.params.userId);
@@ -100,6 +101,9 @@ export const updateStatus = async (req, res) => {
       }`
     );
 
+    if (updatedInterview.status === "ACCEPTED") {
+      scheduleInterviewReminders(updatedInterview);
+    }
     return res.status(200).json({
       message: "Interview status updated successfully",
       data: updatedInterview,

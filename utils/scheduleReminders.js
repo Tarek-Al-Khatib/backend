@@ -1,5 +1,5 @@
 import schedule from "node-schedule";
-import { sendNotification } from "./sendNotification";
+import { sendNotification } from "./sendNotification.js";
 
 export const scheduleInterviewReminders = (interview) => {
   const { id, date, user_id, moderator_id } = interview;
