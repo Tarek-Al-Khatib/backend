@@ -46,7 +46,7 @@ CREATE TABLE `notifications` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `learningSteps` (
+CREATE TABLE `learningsteps` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `step_title` VARCHAR(45) NOT NULL,
     `step_description` VARCHAR(45) NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE `learningSteps` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `learningPlans` (
+CREATE TABLE `learningplans` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `title` VARCHAR(45) NOT NULL,
     `description` VARCHAR(45) NOT NULL,
@@ -96,7 +96,7 @@ CREATE TABLE `chats` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `communityMembers` (
+CREATE TABLE `communitymembers` (
     `user_id` INTEGER NOT NULL,
     `community_id` INTEGER NOT NULL,
     `role` ENUM('ADMIN', 'MODERATOR', 'PROUSER', 'USER') NOT NULL,
@@ -106,7 +106,7 @@ CREATE TABLE `communityMembers` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `communityChannels` (
+CREATE TABLE `communitychannels` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(45) NOT NULL,
     `description` VARCHAR(45) NOT NULL,
@@ -140,10 +140,10 @@ ALTER TABLE `userBadges` ADD CONSTRAINT `UserBadges_badges_id_fkey` FOREIGN KEY 
 ALTER TABLE `notifications` ADD CONSTRAINT `Notifications_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `learningSteps` ADD CONSTRAINT `LearningSteps_learning_plan_id_fkey` FOREIGN KEY (`learning_plan_id`) REFERENCES `learningPlans`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `learningsteps` ADD CONSTRAINT `learningsteps_learning_plan_id_fkey` FOREIGN KEY (`learning_plan_id`) REFERENCES `learningplans`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `learningPlans` ADD CONSTRAINT `LearningPlans_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `learningplans` ADD CONSTRAINT `learningplans_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `interviews` ADD CONSTRAINT `Interviews_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -155,19 +155,19 @@ ALTER TABLE `interviews` ADD CONSTRAINT `Interviews_moderator_id_fkey` FOREIGN K
 ALTER TABLE `chats` ADD CONSTRAINT `Chats_sender_id_fkey` FOREIGN KEY (`sender_id`) REFERENCES `users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `chats` ADD CONSTRAINT `Chats_channel_id_fkey` FOREIGN KEY (`channel_id`) REFERENCES `communityChannels`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `chats` ADD CONSTRAINT `Chats_channel_id_fkey` FOREIGN KEY (`channel_id`) REFERENCES `communitychannels`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `communityMembers` ADD CONSTRAINT `CommunityMembers_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `communitymembers` ADD CONSTRAINT `communitymembers_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `communityMembers` ADD CONSTRAINT `CommunityMembers_community_id_fkey` FOREIGN KEY (`community_id`) REFERENCES `communities`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `communitymembers` ADD CONSTRAINT `communitymembers_community_id_fkey` FOREIGN KEY (`community_id`) REFERENCES `communities`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `communityChannels` ADD CONSTRAINT `CommunityChannels_community_id_fkey` FOREIGN KEY (`community_id`) REFERENCES `communities`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `communitychannels` ADD CONSTRAINT `communitychannels_community_id_fkey` FOREIGN KEY (`community_id`) REFERENCES `communities`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `communityChannels` ADD CONSTRAINT `CommunityChannels_creator_id_fkey` FOREIGN KEY (`creator_id`) REFERENCES `users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `communitychannels` ADD CONSTRAINT `communitychannels_creator_id_fkey` FOREIGN KEY (`creator_id`) REFERENCES `users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `communities` ADD CONSTRAINT `Communities_creator_id_fkey` FOREIGN KEY (`creator_id`) REFERENCES `users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
