@@ -1,5 +1,5 @@
 import prisma from "../database/database.js";
-
+//test
 export const UserModel = prisma.users;
 export const BadgeModel = prisma.badges;
 export const UserBadgeModel = prisma.userBadges;
