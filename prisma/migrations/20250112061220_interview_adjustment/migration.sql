@@ -15,4 +15,4 @@ ALTER TABLE `interviews` DROP COLUMN `score`,
     MODIFY `moderator_id` INTEGER NULL;
 
 -- AddForeignKey
-ALTER TABLE `interviews` ADD CONSTRAINT `Interviews_moderator_id_fkey` FOREIGN KEY (`moderator_id`) REFERENCES `Users`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `interviews` ADD CONSTRAINT `Interviews_moderator_id_fkey` FOREIGN KEY (`moderator_id`) REFERENCES `users`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
